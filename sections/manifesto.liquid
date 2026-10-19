@@ -1,0 +1,111 @@
+{% comment %}
+  KAAZE EDTN Brand Manifesto Section
+{% endcomment %}
+
+<section class="w-full bg-surface-container-lowest px-margin md:px-margin-tablet lg:px-margin-desktop py-space-xl border-b border-surface-container">
+  <div class="max-w-6xl mx-auto flex flex-col gap-space-lg">
+    <div class="flex items-center justify-between border-b border-surface-container pb-space-sm font-mono">
+      <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">
+        {{ section.settings.eyebrow | default: '[ BRAND MANIFESTO // 01 ]' }}
+      </span>
+      <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">
+        {{ section.settings.series | default: 'ARCHITECTURAL INTENT' }}
+      </span>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-start">
+      <div class="lg:col-span-7 flex flex-col gap-space-md">
+        <h2 class="font-display-lg text-display-lg-mobile lg:text-headline-lg uppercase text-primary tracking-tight font-sans font-bold leading-tight">
+          {{ section.settings.heading | default: 'BUILT AROUND INDIVIDUALITY. DRIVEN BY SELF-EXPRESSION.' }}
+        </h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed font-sans font-light">
+          {{ section.settings.body_text | default: 'KAAZE is designed for those who carve their own path. Every garment is treated as an architectural study—utilizing heavyweight custom-milled textiles, aggressive dropped silhouettes, and industrial precision.' }}
+        </p>
+        <div class="pt-space-xs font-mono">
+          <a
+            href="{{ section.settings.story_link | default: '/pages/our-story' }}"
+            class="inline-flex items-center gap-space-xs text-primary font-label-md text-label-md uppercase tracking-widest hover:underline underline-offset-4 font-semibold"
+          >
+            <span>[ {{ section.settings.story_label | default: 'READ THE FULL MANIFESTO' }} ]</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 flex flex-col border border-surface-container divide-y divide-surface-container bg-surface-container-low font-mono">
+        <div class="p-space-md">
+          <span class="font-label-sm text-label-sm text-primary uppercase font-bold block mb-1">
+            01 // MATERIAL INTEGRITY
+          </span>
+          <p class="text-on-surface-variant text-xs">
+            340+ GSM custom-milled French terry and loopback fleece designed to retain structural density through heavy continuous wear.
+          </p>
+        </div>
+        <div class="p-space-md">
+          <span class="font-label-sm text-label-sm text-primary uppercase font-bold block mb-1">
+            02 // SILHOUETTE ARCHITECTURE
+          </span>
+          <p class="text-on-surface-variant text-xs">
+            Aggressive drop shoulders, relaxed boxy drapes, reinforced rib collars, and raw industrial edge finishes.
+          </p>
+        </div>
+        <div class="p-space-md">
+          <span class="font-label-sm text-label-sm text-primary uppercase font-bold block mb-1">
+            03 // LIMITED DISPATCH RUNS
+          </span>
+          <p class="text-on-surface-variant text-xs">
+            Disciplined batch allocations. When a series run is exhausted, it enters the permanent archive.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand Manifesto",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Tag",
+      "default": "[ BRAND MANIFESTO // 01 ]"
+    },
+    {
+      "type": "text",
+      "id": "series",
+      "label": "Series Label",
+      "default": "ARCHITECTURAL INTENT"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "BUILT AROUND INDIVIDUALITY. DRIVEN BY SELF-EXPRESSION."
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Body Copy",
+      "default": "KAAZE is designed for those who carve their own path. Every garment is treated as an architectural study—utilizing heavyweight custom-milled textiles, aggressive dropped silhouettes, and industrial precision."
+    },
+    {
+      "type": "text",
+      "id": "story_label",
+      "label": "Link Label",
+      "default": "READ THE FULL MANIFESTO"
+    },
+    {
+      "type": "url",
+      "id": "story_link",
+      "label": "Link URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Manifesto"
+    }
+  ]
+}
+{% endschema %}

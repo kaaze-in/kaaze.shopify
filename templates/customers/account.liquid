@@ -1,0 +1,175 @@
+{% comment %}
+  KAAZE EDTN Customer Account Terminal Template
+{% endcomment %}
+
+<div class="flex flex-col w-full text-on-surface">
+  <!-- Top Meta Bar -->
+  <div class="w-full bg-surface-container-lowest px-margin md:px-margin-desktop py-space-sm border-b border-surface-container font-mono">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+      <div class="flex items-center gap-space-md flex-wrap">
+        <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">
+          [ CLIENT TERMINAL // SECURE SESSION ]
+        </span>
+        <span class="hidden sm:inline text-outline-variant">|</span>
+        <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">
+          AUTHENTICATED PROFILE
+        </span>
+      </div>
+      <div class="flex items-center gap-space-md">
+        <span class="font-label-sm text-label-sm text-outline lowercase">
+          {{ customer.email }}
+        </span>
+        <a href="{{ routes.account_logout_url }}" class="text-xs uppercase text-outline hover:text-red-500 font-bold">
+          [LOGOUT]
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-full px-margin md:px-margin-desktop py-space-xl">
+    <div class="max-w-6xl mx-auto space-y-space-xl">
+      <!-- Welcome Header -->
+      <div class="border-b border-surface-container pb-space-lg flex flex-col md:flex-row md:items-end justify-between gap-space-md font-mono">
+        <div>
+          <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">
+            MEMBER SINCE {{ customer.created_at | date: '%Y' }} // ARCH-EDTN
+          </span>
+          <h1 class="font-display-xl text-display-xl-mobile md:text-display-xl uppercase text-primary tracking-tight font-sans font-bold leading-none mt-1">
+            WELCOME, {{ customer.first_name | default: 'MEMBER' | upcase }}.
+          </h1>
+        </div>
+        <a
+          href="{{ routes.account_addresses_url }}"
+          class="px-5 py-2.5 bg-surface-container-low border border-surface-container hover:border-primary text-primary text-xs uppercase font-bold tracking-widest transition-colors"
+        >
+          MANAGE ADDRESSES ({{ customer.addresses_count }}) &rarr;
+        </a>
+      </div>
+
+      <!-- 2-Column Terminal Layout: Orders & Profile Specs -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-start font-mono">
+        <!-- Left: Orders Log (8 of 12) -->
+        <div class="lg:col-span-8 flex flex-col gap-space-md">
+          <div class="flex items-center justify-between border-b border-surface-container pb-space-xs">
+            <span class="font-label-md text-label-md uppercase tracking-widest text-primary font-bold">
+              [ DISPATCH ARCHIVE // ORDER HISTORY ]
+            </span>
+            <span class="text-xs text-outline">{{ customer.orders.size }} ORDERS</span>
+          </div>
+
+          {% paginate customer.orders by 10 %}
+            {% if customer.orders.size > 0 %}
+              <div class="overflow-x-auto border border-surface-container bg-surface-container-lowest">
+                <table class="w-full text-left font-mono text-xs border-collapse">
+                  <thead>
+                    <tr class="border-b border-surface-container bg-surface-container-low text-outline">
+                      <th class="py-3 px-4 font-normal uppercase">ORDER REF</th>
+                      <th class="py-3 px-4 font-normal uppercase">DATE</th>
+                      <th class="py-3 px-4 font-normal uppercase">STATUS</th>
+                      <th class="py-3 px-4 font-normal uppercase text-right">TOTAL</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-surface-container">
+                    {% for order in customer.orders %}
+                      <tr class="hover:bg-surface-container-low transition-colors">
+                        <td class="py-3 px-4 font-bold text-primary">
+                          <a href="{{ order.customer_url }}" class="hover:underline">
+                            {{ order.name }}
+                          </a>
+                        </td>
+                        <td class="py-3 px-4 text-on-surface-variant">
+                          {{ order.created_at | date: '%d.%m.%Y' }}
+                        </td>
+                        <td class="py-3 px-4">
+                          <span class="px-2 py-0.5 border border-surface-container text-[10px] uppercase {% if order.fulfillment_status == 'fulfilled' %}bg-emerald-500/10 text-emerald-400{% else %}bg-surface-container text-outline{% endif %}">
+                            {{ order.fulfillment_status_label }}
+                          </span>
+                        </td>
+                        <td class="py-3 px-4 text-right font-bold text-primary">
+                          {{ order.total_price | money }}
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+              {% if paginate.pages > 1 %}
+                <div class="flex justify-between py-space-sm text-xs text-outline">
+                  {{ paginate | default_pagination }}
+                </div>
+              {% endif %}
+
+            {% else %}
+              <div class="py-space-xl p-space-md border border-surface-container bg-surface-container-low text-center text-outline flex flex-col items-center gap-space-sm">
+                <span class="text-xs uppercase font-bold text-primary">[ NO LOGGED DISPATCHES ]</span>
+                <p class="text-xs max-w-sm font-sans">
+                  You have not placed any orders yet. When you complete checkout, your dispatch history and tracking details will appear here.
+                </p>
+                <a
+                  href="{{ routes.all_products_collection_url }}"
+                  class="mt-2 px-6 py-2.5 bg-primary text-on-primary text-xs uppercase tracking-widest font-bold"
+                >
+                  START EXPLORING CATALOGUE
+                </a>
+              </div>
+            {% endif %}
+          {% endpaginate %}
+        </div>
+
+        <!-- Right: Primary Address & Sizing Module (4 of 12) -->
+        <div class="lg:col-span-4 flex flex-col gap-space-md">
+          <!-- Primary Dispatch Coordinate -->
+          <div class="border border-surface-container bg-surface-container-lowest p-space-md flex flex-col gap-space-xs">
+            <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest block border-b border-surface-container pb-2">
+              [ PRIMARY DISPATCH COORDINATES ]
+            </span>
+            {% if customer.default_address %}
+              <div class="pt-2 text-xs text-on-surface space-y-1">
+                <span class="block font-bold text-primary uppercase">{{ customer.default_address.name }}</span>
+                <span class="block text-outline">{{ customer.default_address.street }}</span>
+                <span class="block text-outline">
+                  {{ customer.default_address.city }}, {{ customer.default_address.province_code }} {{ customer.default_address.zip }}
+                </span>
+                <span class="block text-outline">{{ customer.default_address.country }}</span>
+                {% if customer.default_address.phone != blank %}
+                  <span class="block text-outline pt-1">TEL: {{ customer.default_address.phone }}</span>
+                {% endif %}
+              </div>
+            {% else %}
+              <p class="pt-2 text-xs text-outline font-sans">
+                No default shipping address registered.
+              </p>
+            {% endif %}
+            <a
+              href="{{ routes.account_addresses_url }}"
+              class="mt-space-sm text-xs text-primary font-bold hover:underline uppercase block"
+            >
+              EDIT ADDRESS MATRIX &rarr;
+            </a>
+          </div>
+
+          <!-- Technical Sizing Module -->
+          <div class="border border-surface-container bg-surface-container-low p-space-md flex flex-col gap-space-xs">
+            <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest block border-b border-surface-container pb-2">
+              [ SIZING MATRIX // SPECIFICATIONS ]
+            </span>
+            <div class="pt-2 grid grid-cols-2 gap-y-2 text-xs">
+              <span class="text-outline uppercase">CHEST:</span>
+              <span class="text-primary font-bold">48" (OVERSIZED)</span>
+              <span class="text-outline uppercase">WAIST:</span>
+              <span class="text-primary font-bold">32" (RELAXED)</span>
+              <span class="text-outline uppercase">INSEAM:</span>
+              <span class="text-primary font-bold">32" (STACKED)</span>
+              <span class="text-outline uppercase">FOOTWEAR:</span>
+              <span class="text-primary font-bold">44 EU / 10.5 US</span>
+            </div>
+            <div class="mt-space-sm pt-2 border-t border-surface-container text-[10px] text-outline">
+              CALIBRATED FOR SIGNATURE RUNWAY SILHOUETTE.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

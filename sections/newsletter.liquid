@@ -1,0 +1,93 @@
+{% comment %}
+  KAAZE EDTN Newsletter Subscription Section
+  Powered by Shopify native customer form
+{% endcomment %}
+
+<section class="w-full bg-surface-container-low px-margin md:px-margin-tablet lg:px-margin-desktop py-space-xl border-b border-surface-container">
+  <div class="max-w-3xl mx-auto flex flex-col items-center text-center gap-space-md">
+    <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase font-mono">
+      {{ section.settings.eyebrow | default: '[ TRANSMISSIONS // SUBSCRIBER PROTOCOL ]' }}
+    </span>
+
+    <h2 class="font-display-lg text-headline-lg lg:text-display-lg uppercase text-primary tracking-tight font-sans font-bold leading-none">
+      {{ section.settings.heading | default: 'RECEIVE DISPATCH ALERTS.' }}
+    </h2>
+
+    <p class="font-body-md text-body-md text-on-surface-variant max-w-lg font-sans">
+      {{ section.settings.subtext | default: 'Direct notification prior to public release of limited series drops and private archive re-allocations.' }}
+    </p>
+
+    <div class="w-full max-w-md mt-space-sm font-mono">
+      {% form 'customer' %}
+        {% if form.posted_successfully? %}
+          <div class="p-space-sm bg-surface-container-lowest border border-primary text-primary font-label-md text-label-md uppercase tracking-wider">
+            [ SUBSCRIBER CREDENTIALS LOGGED // STANDBY ]
+          </div>
+        {% else %}
+          {% if form.errors %}
+            <div class="p-space-xs mb-space-xs text-red-500 font-label-sm text-label-sm uppercase tracking-wider">
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="flex items-stretch border border-surface-container bg-surface-container-lowest focus-within:border-primary transition-colors">
+            <input
+              type="email"
+              name="contact[email]"
+              id="NewsletterEmail-{{ section.id }}"
+              class="w-full px-space-md py-3.5 bg-transparent font-label-md text-label-md text-on-surface placeholder:text-outline focus:outline-none uppercase"
+              placeholder="{{ section.settings.placeholder | default: 'ENTER EMAIL COORDINATES...' }}"
+              required
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+            >
+            <button
+              type="submit"
+              class="px-space-md bg-primary text-on-primary font-label-md text-label-md uppercase tracking-widest hover:bg-surface-container-high hover:text-primary transition-colors flex items-center justify-center font-bold cursor-pointer"
+            >
+              [ TRANSMIT ]
+            </button>
+          </div>
+        {% endif %}
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter Directive",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Tag",
+      "default": "[ TRANSMISSIONS // SUBSCRIBER PROTOCOL ]"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "RECEIVE DISPATCH ALERTS."
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Direct notification prior to public release of limited series drops and private archive re-allocations."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Input Placeholder",
+      "default": "ENTER EMAIL COORDINATES..."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter Directive"
+    }
+  ]
+}
+{% endschema %}

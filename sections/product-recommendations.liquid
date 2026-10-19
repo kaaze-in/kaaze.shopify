@@ -1,0 +1,72 @@
+{% comment %}
+  KAAZE EDTN Product Recommendations Section
+  Complete the uniform / complementary pieces grid.
+{% endcomment %}
+
+<section class="w-full px-margin md:px-margin-tablet lg:px-margin-desktop pb-space-xl">
+  <!-- Section Separator Line -->
+  <div class="w-full border-t border-surface-container flex items-center justify-between pt-space-xs font-label-sm text-label-sm text-outline uppercase tracking-widest font-mono mb-space-lg">
+    <span>INDEX: RECOM_MOD_04</span>
+    <span>KAAZE SYSTEM // 2026</span>
+  </div>
+
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-space-lg gap-space-xs font-mono">
+    <div>
+      <span class="font-label-md text-label-md uppercase tracking-widest text-outline">
+        {{ section.settings.eyebrow | default: '[ COMPLEMENTARY PIECES ]' }}
+      </span>
+      <h2 class="font-display-lg text-display-lg-mobile lg:text-headline-lg uppercase text-primary tracking-tight font-sans font-bold mt-space-xs">
+        {{ section.settings.heading | default: 'COMPLETE THE UNIFORM.' }}
+      </h2>
+    </div>
+    <a
+      href="{{ routes.all_products_collection_url }}"
+      class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors flex items-center gap-space-xs"
+    >
+      <span>EXPLORE FULL ARCHIVE</span>
+      <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+    </a>
+  </div>
+
+  <!-- 4-Column Product Recommendation Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter-desktop">
+    {% assign rec_collection = collections[section.settings.collection] | default: product.collections.first | default: collections.all %}
+    {% assign count = 0 %}
+    {% for rec_product in rec_collection.products %}
+      {% if rec_product.id != product.id and count < 4 %}
+        {% render 'product-card', product: rec_product, card_variant: 'lineup' %}
+        {% assign count = count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Recommendations",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "[ COMPLEMENTARY PIECES ]"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "COMPLETE THE UNIFORM."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Fallback Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Recommendations"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,119 @@
+{% comment %}
+  KAAZE Brutalist Main Hero Section
+{% endcomment %}
+
+<section class="relative w-full -mt-16 bg-surface-container-lowest overflow-hidden">
+  <div class="relative w-full min-h-[92vh] flex flex-col justify-end">
+    <!-- Background Image with Brutalist Film Grain Overlay -->
+    {% if section.settings.image != blank %}
+      <div
+        class="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat grayscale brightness-[0.78] contrast-[1.25] opacity-40 dark:opacity-100"
+        style="background-image: url('{{ section.settings.image | image_url: width: 2000 }}');"
+      ></div>
+    {% else %}
+      <div
+        class="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat grayscale brightness-[0.78] contrast-[1.25] opacity-40 dark:opacity-100"
+        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB2k4SiBPyYWZreJ4BD1KkkKX0e2YqZP8OohOsBBXJymgPxz5TP5sR4nj3ldkLOIRaz5Nl5qBkTDfU5XJQPw6GIYxpjs1sQmNieyxnQR6hwsfFA420ewgzPmcaQMwCKzezx5elYg7lDQtI1A3F1dRF0VOe71ppkd0c6kw-gqGRxG5b12QbDLnEX3b-PmLnG2DM_VMXQtfrNqnsUufb1LGE7M7Tt1IfmvCXzMZTTMySAFqNKmIXX7iI');"
+      ></div>
+    {% endif %}
+
+    <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/65 to-surface-container-lowest/30"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-surface-container-lowest/40 to-surface-container-lowest/90"></div>
+
+    <!-- Typography & CTA Content -->
+    <div class="relative z-10 w-full px-margin md:px-margin-tablet lg:px-margin-desktop pb-space-xl pt-space-lg">
+      <div class="max-w-6xl pl-0 sm:pl-space-xl">
+        <h1 class="font-display-xl text-display-xl-mobile md:text-display-xl text-primary uppercase tracking-tight leading-[0.88] select-none">
+          <span class="block font-headline-lg text-[24px] md:text-[31px] tracking-[0.3em] text-primary mb-1">
+            {{ section.settings.tagline | default: 'NOT MADE TO FIT IN.' }}
+          </span>
+          <span
+            style="font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.08em;"
+            class="block mt-2 font-bold"
+          >
+            {{ section.settings.brand_heading | default: 'KAAZE.' }}
+          </span>
+        </h1>
+        <div class="mt-space-md max-w-2xl">
+          <p class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary uppercase leading-tight tracking-wide font-sans">
+            <strong>{{ section.settings.subheading | default: 'Your Style. Your Energy.' }}</strong>
+          </p>
+          <p class="font-body-lg text-body-lg text-on-surface-variant mt-space-xs font-light tracking-wide font-sans">
+            {{ section.settings.body_text | default: 'Set your own trends. Own your vibe.' }}
+          </p>
+        </div>
+        <div class="mt-space-lg flex flex-col sm:flex-row items-start sm:items-center gap-space-md pt-space-xs font-mono">
+          <a
+            href="{{ section.settings.button_link | default: routes.all_products_collection_url }}"
+            class="group relative inline-flex items-center justify-center px-space-lg py-space-sm bg-primary text-on-primary font-label-md text-label-md uppercase tracking-[0.2em] transition-all duration-100 hover:bg-surface-container-lowest hover:text-primary hover:outline hover:outline-1 hover:outline-primary active:scale-[0.99] font-bold"
+          >
+            [ {{ section.settings.button_text | default: 'SHOP NOW' }} ]
+          </a>
+          <div class="flex items-center gap-space-sm text-on-surface-variant font-label-sm text-label-sm tracking-[0.2em]">
+            <span class="w-2 h-2 bg-primary"></span>
+            <span class="text-primary font-medium">{{ section.settings.status_badge | default: 'BE DIFFERENT. BE KAAZE.' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brutalist Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero Background Image"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Top Tagline",
+      "default": "NOT MADE TO FIT IN."
+    },
+    {
+      "type": "text",
+      "id": "brand_heading",
+      "label": "Brand Heading",
+      "default": "KAAZE."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Your Style. Your Energy."
+    },
+    {
+      "type": "text",
+      "id": "body_text",
+      "label": "Body Text",
+      "default": "Set your own trends. Own your vibe."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "status_badge",
+      "label": "Status Badge",
+      "default": "BE DIFFERENT. BE KAAZE."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brutalist Hero"
+    }
+  ]
+}
+{% endschema %}

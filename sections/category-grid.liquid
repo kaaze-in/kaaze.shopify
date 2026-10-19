@@ -1,0 +1,166 @@
+{% comment %}
+  KAAZE EDTN Category Directory Grid Section
+{% endcomment %}
+
+<section class="w-full bg-surface-container-lowest px-margin md:px-margin-tablet lg:px-margin-desktop py-space-xl border-t border-b border-surface-container">
+  <div class="flex items-center justify-between border-b border-surface-container pb-space-sm mb-space-lg font-mono">
+    <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">
+      {{ section.settings.eyebrow | default: '[ SPEC // SECTOR CLASSIFICATION ]' }}
+    </span>
+    <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">
+      {{ section.settings.tag | default: 'ARCHIVE CATEGORIES' }}
+    </span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter-desktop">
+    {% for block in section.blocks %}
+      <a
+        href="{{ block.settings.link | default: routes.all_products_collection_url }}"
+        class="group relative flex flex-col justify-between aspect-[3/4] p-space-md border border-surface-container hover:border-primary overflow-hidden transition-all duration-200 bg-surface-container"
+        {{ block.shopify_attributes }}
+      >
+        {% if block.settings.image != blank %}
+          <img
+            src="{{ block.settings.image | image_url: width: 800 }}"
+            alt="{{ block.settings.title | escape }}"
+            class="absolute inset-0 w-full h-full object-cover grayscale contrast-125 transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+            width="800"
+            height="1066"
+          >
+        {% elsif block.settings.fallback_image_url != blank %}
+          <img
+            src="{{ block.settings.fallback_image_url }}"
+            alt="{{ block.settings.title | escape }}"
+            class="absolute inset-0 w-full h-full object-cover grayscale contrast-125 transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+            width="800"
+            height="1066"
+          >
+        {% endif %}
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+
+        <div class="relative z-10 font-mono text-[10px] text-white/70 tracking-widest uppercase">
+          {{ block.settings.index_tag | default: '01/DIR' }}
+        </div>
+
+        <div class="relative z-10 flex flex-col gap-1">
+          <span class="font-display-lg text-headline-lg uppercase text-white font-bold tracking-tight">
+            {{ block.settings.title }}
+          </span>
+          <span class="font-label-sm text-label-sm text-white/80 font-mono tracking-wider line-clamp-1">
+            {{ block.settings.subtitle }}
+          </span>
+          <div class="mt-2 flex items-center gap-1 text-white font-mono text-xs uppercase tracking-widest group-hover:translate-x-1 transition-transform">
+            <span>EXPLORE</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Category Directory Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Tag",
+      "default": "[ SPEC // SECTOR CLASSIFICATION ]"
+    },
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "Category Tag",
+      "default": "ARCHIVE CATEGORIES"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_card",
+      "name": "Category Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "CLOTHING"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "DROP 01 // ARCHITECTURAL SILHOUETTES"
+        },
+        {
+          "type": "text",
+          "id": "index_tag",
+          "label": "Index Tag",
+          "default": "01/DIR"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background Image"
+        },
+        {
+          "type": "text",
+          "id": "fallback_image_url",
+          "label": "Fallback Image URL"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Directory Grid",
+      "blocks": [
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "CLOTHING",
+            "subtitle": "DROP 01 // ARCHITECTURAL SILHOUETTES",
+            "index_tag": "01/DIR",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuCP6Z5TLL81TKhgcksJO0FayZ9HML8S_01R8WnDx2Z49as6NtyGBqdBXRZbStibUughSwi1ai_BpeNPHj9_RRTVWIkQXHcKUWe0_YQSEgwQP83Fq5KJHiyrawhgH_70NfIKP_TKQrjuqzGiLLFXjd9XMdu2wuN-_f7OlY82wYRyg9uCp-pnb_lmQoRTc_Ce8DVtTB6wSWnOd_DukIg_mZjfPQKmmEVaXK8YqXV8MdI8L3KPAJrl-_s"
+          }
+        },
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "SHOES",
+            "subtitle": "TACTICAL COMBAT BOOTS & MULES",
+            "index_tag": "02/DIR",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuCK_hP8qC5mG-PZ6i5s-xJgZ5x0-ZzGqPz4wGvJqXy9mKnLpQvRnRsTyUwWxYzAbCdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQrStUv"
+          }
+        },
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "WATCHES",
+            "subtitle": "INDUSTRIAL CHRONOGRAPHS // 100M WATER RESIST",
+            "index_tag": "03/DIR",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuB2k4SiBPyYWZreJ4BD1KkkKX0e2YqZP8OohOsBBXJymgPxz5TP5sR4nj3ldkLOIRaz5Nl5qBkTDfU5XJQPw6GIYxpjs1sQmNieyxnQR6hwsfFA420ewgzPmcaQMwCKzezx5elYg7lDQtI1A3F1dRF0VOe71ppkd0c6kw-gqGRxG5b12QbDLnEX3b-PmLnG2DM_VMXQtfrNqnsUufb1LGE7M7Tt1IfmvCXzMZTTMySAFqNKmIXX7iI"
+          }
+        },
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "ACCESSORIES",
+            "subtitle": "BALLISTIC BAGS, BEANIES & BELTS",
+            "index_tag": "04/DIR",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuCP6Z5TLL81TKhgcksJO0FayZ9HML8S_01R8WnDx2Z49as6NtyGBqdBXRZbStibUughSwi1ai_BpeNPHj9_RRTVWIkQXHcKUWe0_YQSEgwQP83Fq5KJHiyrawhgH_70NfIKP_TKQrjuqzGiLLFXjd9XMdu2wuN-_f7OlY82wYRyg9uCp-pnb_lmQoRTc_Ce8DVtTB6wSWnOd_DukIg_mZjfPQKmmEVaXK8YqXV8MdI8L3KPAJrl-_s"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,41 @@
+{% comment %}
+  KAAZE EDTN Standard Page Section
+{% endcomment %}
+
+<div class="flex flex-col w-full text-on-surface">
+  <!-- Top Meta Bar -->
+  <div class="w-full bg-surface-container-lowest px-margin md:px-margin-desktop py-space-sm border-b border-surface-container font-mono">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+      <div class="flex items-center gap-space-md flex-wrap">
+        <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">
+          [ DIRECTIVE // {{ page.handle | upcase }} ]
+        </span>
+        <span class="hidden sm:inline text-outline-variant">|</span>
+        <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">
+          {{ page.title }}
+        </span>
+      </div>
+      <span class="font-label-sm text-label-sm text-outline uppercase">
+        {{ shop.name }}
+      </span>
+    </div>
+  </div>
+
+  <div class="w-full px-margin md:px-margin-desktop py-space-lg md:py-space-xl">
+    <div class="max-w-4xl mx-auto flex flex-col space-y-space-lg">
+      <h1 class="font-display-xl text-display-xl-mobile md:text-display-xl uppercase tracking-tight text-primary leading-none font-sans font-bold">
+        {{ page.title }}
+      </h1>
+      <div class="prose max-w-none text-on-surface-variant font-body-md font-sans leading-relaxed space-y-space-md">
+        {{ page.content }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Standard Page",
+  "settings": []
+}
+{% endschema %}

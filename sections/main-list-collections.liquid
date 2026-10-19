@@ -1,0 +1,94 @@
+{% comment %}
+  KAAZE EDTN Collections Directory Section
+{% endcomment %}
+
+<div class="flex flex-col w-full text-on-surface">
+  <!-- Top Meta Bar -->
+  <div class="w-full bg-surface-container-lowest px-margin md:px-margin-desktop py-space-sm border-b border-surface-container font-mono">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+      <div class="flex items-center gap-space-md flex-wrap">
+        <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">
+          [ DIRECTORY ARCHITECTURE // SECTORS ]
+        </span>
+        <span class="hidden sm:inline text-outline-variant">|</span>
+        <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">
+          COLLECTIONS INDEX
+        </span>
+      </div>
+      <span class="font-label-sm text-label-sm text-outline uppercase">
+        {{ collections.size }} ACTIVE SECTORS
+      </span>
+    </div>
+  </div>
+
+  <!-- Header Banner -->
+  <div class="w-full px-margin md:px-margin-desktop py-space-xl bg-surface-container-low border-b border-surface-container">
+    <div class="max-w-4xl mx-auto space-y-space-xs font-mono">
+      <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+        [ SYSTEM INDEX ]
+      </span>
+      <h1 class="font-display-xl text-display-xl-mobile md:text-display-xl uppercase tracking-tight text-primary leading-none font-sans font-bold">
+        COLLECTIONS.
+      </h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant font-sans pt-2 max-w-2xl">
+        Architectural streetwear, industrial footwear, engineered horology, and modular gear.
+      </p>
+    </div>
+  </div>
+
+  <!-- Collections Listing Grid -->
+  <div class="w-full px-margin md:px-margin-desktop py-space-xl">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-gutter-desktop">
+      {% for collection in collections %}
+        {% unless collection.handle == 'frontpage' %}
+          <a
+            href="{{ collection.url }}"
+            class="group relative flex flex-col justify-between aspect-[16/10] p-space-lg border border-surface-container hover:border-primary overflow-hidden transition-all duration-200 bg-surface-container-lowest"
+          >
+            {% assign collection_image = collection.featured_image | default: collection.products.first.featured_image %}
+            {% if collection_image != blank %}
+              <img
+                src="{{ collection_image | image_url: width: 1000 }}"
+                alt="{{ collection.title | escape }}"
+                class="absolute inset-0 w-full h-full object-cover grayscale contrast-125 transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
+                width="1000"
+                height="625"
+              >
+            {% endif %}
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20"></div>
+
+            <div class="relative z-10 flex items-center justify-between font-mono text-[11px] text-white/80 tracking-widest uppercase">
+              <span>[ SECTOR // {{ forloop.index | prepend: '0' | slice: -2, 2 }} ]</span>
+              <span class="bg-black/60 px-2 py-0.5 border border-white/20">
+                {{ collection.all_products_count }} ARTIFACTS
+              </span>
+            </div>
+
+            <div class="relative z-10 flex flex-col gap-1">
+              <h2 class="font-display-lg text-display-lg-mobile md:text-headline-lg uppercase text-white font-bold tracking-tight">
+                {{ collection.title }}
+              </h2>
+              {% if collection.description != blank %}
+                <p class="font-body-sm text-white/70 line-clamp-1 font-mono text-xs">
+                  {{ collection.description | strip_html }}
+                </p>
+              {% endif %}
+              <div class="mt-2 flex items-center gap-1 text-white font-mono text-xs uppercase tracking-widest group-hover:translate-x-1 transition-transform">
+                <span>ENTER DIRECTORY</span>
+                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+              </div>
+            </div>
+          </a>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collections Directory",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,106 @@
+{% comment %}
+  KAAZE EDTN Main Search Results Section
+{% endcomment %}
+
+{% paginate search.results by 24 %}
+<div class="flex flex-col w-full text-on-surface">
+  <!-- Top Meta Bar -->
+  <div class="w-full bg-surface-container-lowest px-margin md:px-margin-desktop py-space-sm border-b border-surface-container font-mono">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+      <div class="flex items-center gap-space-md flex-wrap">
+        <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">
+          [ SEARCH ARCHIVE // QUERY TERMINAL ]
+        </span>
+        <span class="hidden sm:inline text-outline-variant">|</span>
+        <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">
+          {% if search.performed %}
+            TERM: &ldquo;{{ search.terms | escape }}&rdquo;
+          {% else %}
+            GLOBAL SEARCH
+          {% endif %}
+        </span>
+      </div>
+      <span class="font-label-sm text-label-sm text-outline uppercase">
+        {{ search.results_count | default: 0 }} MATCHING PIECES
+      </span>
+    </div>
+  </div>
+
+  <!-- Search Input Header -->
+  <div class="w-full px-margin md:px-margin-desktop py-space-lg bg-surface-container-low border-b border-surface-container">
+    <div class="max-w-3xl mx-auto">
+      <form action="{{ routes.search_url }}" method="get" class="flex items-center border border-surface-container bg-surface-container-lowest p-1 focus-within:border-primary transition-colors">
+        <input type="hidden" name="type" value="product">
+        <span class="material-symbols-outlined text-outline text-[20px] ml-3">search</span>
+        <input
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="SEARCH ARTIFACTS, SPECIFICATIONS, CATEGORIES..."
+          class="w-full px-space-sm py-2 bg-transparent font-mono text-xs uppercase text-on-surface placeholder:text-outline focus:outline-none"
+        >
+        <button
+          type="submit"
+          class="px-space-md py-2 bg-primary text-on-primary font-mono text-xs uppercase tracking-widest font-bold hover:bg-surface-container-high hover:text-primary transition-colors cursor-pointer"
+        >
+          [ QUERY ]
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Results Grid -->
+  <div class="w-full px-margin md:px-margin-desktop py-space-xl">
+    {% if search.performed %}
+      {% if search.results_count > 0 %}
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+          {% for item in search.results %}
+            {% if item.object_type == 'product' %}
+              {% render 'product-card', product: item, card_variant: 'catalog' %}
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% if paginate.pages > 1 %}
+          <div class="mt-space-xl pt-space-md border-t border-surface-container flex items-center justify-between font-mono font-label-md text-label-md">
+            <div>
+              {% if paginate.previous %}
+                <a href="{{ paginate.previous.url }}" class="hover:text-primary text-outline uppercase">&larr; PREVIOUS</a>
+              {% endif %}
+            </div>
+            <div class="text-outline uppercase">PAGE {{ paginate.current_page }} OF {{ paginate.pages }}</div>
+            <div>
+              {% if paginate.next %}
+                <a href="{{ paginate.next.url }}" class="hover:text-primary text-outline uppercase">NEXT &rarr;</a>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+
+      {% else %}
+        <div class="py-space-xl text-center flex flex-col items-center gap-space-md text-outline font-mono">
+          <span class="font-headline-md text-headline-md uppercase text-primary">
+            [ NO SPECIFICATIONS MATCHED &ldquo;{{ search.terms | escape }}&rdquo; ]
+          </span>
+          <p class="font-body-md text-on-surface-variant max-w-md font-sans">
+            Verify spelling or try searching generic terms like &ldquo;Tee&rdquo;, &ldquo;Cargo&rdquo;, &ldquo;Boot&rdquo;, or &ldquo;Watch&rdquo;.
+          </p>
+          <a
+            href="{{ routes.all_products_collection_url }}"
+            class="px-6 py-2.5 bg-primary text-on-primary font-label-md text-label-md uppercase tracking-widest font-bold"
+          >
+            VIEW ALL ARTIFACTS
+          </a>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Search Results",
+  "settings": []
+}
+{% endschema %}

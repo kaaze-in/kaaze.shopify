@@ -1,0 +1,170 @@
+{% comment %}
+  KAAZE EDTN Header Section
+  Sticky brutalist navigation, brand mark, search modal trigger, bag counter, and mobile drawer.
+{% endcomment %}
+
+<header class="fixed top-0 left-0 right-0 z-50 w-full bg-surface-container-lowest/95 backdrop-blur-md border-b border-surface-container" id="siteHeader">
+  <div class="h-16 w-full px-margin md:px-margin-tablet lg:px-margin-desktop flex items-center justify-between">
+    <!-- Logo & Desktop Navigation -->
+    <div className="flex items-center gap-space-lg" style="display: flex; align-items: center; gap: 2rem;">
+      <a href="{{ routes.root_url }}" class="flex items-center gap-space-sm group">
+        {% if section.settings.logo != blank %}
+          <img
+            src="{{ section.settings.logo | image_url: width: 240 }}"
+            alt="{{ shop.name }}"
+            class="h-8 w-auto object-contain"
+            width="{{ section.settings.logo.width }}"
+            height="{{ section.settings.logo.height }}"
+          >
+        {% else %}
+          <span
+            style="font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.12em;"
+            class="font-headline-md text-headline-md tracking-widest text-primary uppercase font-bold"
+          >
+            {{ section.settings.brand_text | default: 'KAAZE.' }}
+          </span>
+        {% endif %}
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-space-md" style="margin-left: 2rem;">
+        {% assign header_menu = section.settings.menu | default: 'main-menu' %}
+        {% for link in linklists[header_menu].links %}
+          {% assign is_active = false %}
+          {% if link.current %}
+            {% assign is_active = true %}
+          {% endif %}
+          <a
+            href="{{ link.url }}"
+            class="font-label-md text-label-md uppercase transition-colors py-space-xs {% if is_active %}text-primary border-b border-primary font-medium{% else %}text-on-surface-variant hover:text-primary{% endif %}"
+          >
+            {{ link.title }}
+          </a>
+        {% endfor %}
+      </nav>
+    </div>
+
+    <!-- Right Utility Navigation -->
+    <div class="flex items-center gap-space-md">
+      <!-- Search Trigger -->
+      <button
+        type="button"
+        id="openSearchModal"
+        aria-label="Search Archive"
+        class="text-on-surface-variant hover:text-primary transition-colors p-space-xs flex items-center cursor-pointer"
+      >
+        <span class="material-symbols-outlined text-[20px]">search</span>
+      </button>
+
+      <!-- Customer Account Link -->
+      <a
+        href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+        class="hidden sm:flex items-center gap-space-xs font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors p-space-xs"
+      >
+        <span class="material-symbols-outlined text-[20px]">person</span>
+        <span>
+          {% if customer %}
+            {{ customer.first_name | default: 'Account' }}
+          {% else %}
+            Account
+          {% endif %}
+        </span>
+      </a>
+
+      <!-- Bag Link / Cart Drawer Trigger -->
+      <a
+        href="{{ routes.cart_url }}"
+        id="cartDrawerTrigger"
+        class="flex items-center gap-space-xs font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors p-space-xs"
+      >
+        <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+        <span class="text-primary font-label-sm text-label-sm tracking-widest" id="cartCountBadge">
+          [{{ cart.item_count }}]
+        </span>
+      </a>
+
+      <!-- User Profile Badge Indicator -->
+      <a
+        href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+        class="w-8 h-8 rounded-full bg-primary flex items-center justify-center hover:opacity-90 transition-opacity"
+        title="{% if customer %}Account: {{ customer.name }}{% else %}Customer Account{% endif %}"
+      >
+        {% if customer %}
+          <span class="font-mono text-on-primary font-bold text-xs uppercase">
+            {{ customer.first_name | slice: 0 | default: 'C' | upcase }}
+          </span>
+        {% else %}
+          <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+        {% endif %}
+      </a>
+
+      <!-- Mobile Hamburger Toggle Button -->
+      <button
+        type="button"
+        id="mobileMenuToggle"
+        class="lg:hidden text-on-surface hover:text-primary p-space-xs cursor-pointer"
+        aria-label="Toggle mobile menu"
+        aria-expanded="false"
+      >
+        <span class="material-symbols-outlined text-[24px]" id="mobileMenuIcon">menu</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Drawer -->
+  <div id="mobileMenuDrawer" class="hidden lg:hidden w-full bg-surface-container-lowest border-b border-surface-container px-margin py-space-md flex-col gap-space-sm animate-in fade-in duration-100">
+    <div class="flex items-center justify-between pb-2 border-b border-surface-container font-label-sm text-outline tracking-widest uppercase">
+      <span>[ NAVIGATION DIRECTORY ]</span>
+      <span>SYS_MENU</span>
+    </div>
+    {% assign header_menu = section.settings.menu | default: 'main-menu' %}
+    {% for link in linklists[header_menu].links %}
+      <a
+        href="{{ link.url }}"
+        class="py-2 px-space-xs font-label-md text-label-md uppercase tracking-wider flex items-center justify-between {% if link.current %}text-primary bg-surface-container font-bold border-l-2 border-primary pl-2{% else %}text-on-surface-variant hover:text-primary{% endif %}"
+      >
+        <span>{{ link.title }}</span>
+        <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+      </a>
+    {% endfor %}
+    <div class="pt-2 border-t border-surface-container flex items-center justify-between">
+      <a
+        href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+        class="font-mono text-label-md uppercase text-primary hover:underline flex items-center justify-between w-full py-1.5"
+      >
+        <span>
+          {% if customer %}
+            Account ({{ customer.first_name | default: 'Dashboard' }})
+          {% else %}
+            Account / Sign In
+          {% endif %}
+        </span>
+        <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header Navigation",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand_text",
+      "label": "Brand Logo Text",
+      "default": "KAAZE."
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Custom Brand Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

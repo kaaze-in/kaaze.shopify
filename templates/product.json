@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {}
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "eyebrow": "[ COMPLEMENTARY PIECES ]",
+        "heading": "COMPLETE THE UNIFORM."
+      }
+    }
+  },
+  "order": [
+    "main",
+    "recommendations"
+  ]
+}

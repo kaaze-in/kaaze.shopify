@@ -1,0 +1,112 @@
+{% comment %}
+  KAAZE EDTN Customer Individual Order Template
+{% endcomment %}
+
+<div class="flex flex-col w-full text-on-surface font-mono">
+  <!-- Top Meta Bar -->
+  <div class="w-full bg-surface-container-lowest px-margin md:px-margin-desktop py-space-sm border-b border-surface-container">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+      <div class="flex items-center gap-space-md flex-wrap">
+        <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">
+          [ DISPATCH LOG // {{ order.name }} ]
+        </span>
+        <span class="hidden sm:inline text-outline-variant">|</span>
+        <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">
+          WAYBILL DETAILS
+        </span>
+      </div>
+      <a href="{{ routes.account_url }}" class="text-xs uppercase text-primary font-bold hover:underline">
+        &larr; RETURN TO ACCOUNT TERMINAL
+      </a>
+    </div>
+  </div>
+
+  <div class="w-full px-margin md:px-margin-desktop py-space-xl">
+    <div class="max-w-5xl mx-auto space-y-space-lg">
+      <div class="border-b border-surface-container pb-space-sm flex flex-col sm:flex-row sm:items-end justify-between gap-space-sm">
+        <div>
+          <span class="text-xs text-outline uppercase tracking-widest">
+            LOGGED: {{ order.created_at | date: '%d.%m.%Y // %H:%M %Z' }}
+          </span>
+          <h1 class="font-display-lg text-headline-lg uppercase text-primary font-sans font-bold leading-none mt-1">
+            ORDER {{ order.name }}
+          </h1>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 border border-surface-container text-xs font-bold uppercase bg-surface-container-low text-primary">
+            STATUS: {{ order.fulfillment_status_label | upcase }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Line Items Table -->
+      <div class="border border-surface-container bg-surface-container-lowest overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-surface-container bg-surface-container-low text-outline">
+              <th class="py-3 px-4 font-normal uppercase">ITEM</th>
+              <th class="py-3 px-4 font-normal uppercase">SKU</th>
+              <th class="py-3 px-4 font-normal uppercase text-center">QTY</th>
+              <th class="py-3 px-4 font-normal uppercase text-right">PRICE</th>
+              <th class="py-3 px-4 font-normal uppercase text-right">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-surface-container">
+            {% for line_item in order.line_items %}
+              <tr>
+                <td class="py-3 px-4">
+                  <span class="font-bold text-primary uppercase block font-sans text-sm">{{ line_item.title }}</span>
+                  {% if line_item.fulfillment %}
+                    <span class="text-[10px] text-emerald-400 uppercase block mt-0.5">
+                      Tracking: {{ line_item.fulfillment.tracking_company }} #{{ line_item.fulfillment.tracking_number }}
+                    </span>
+                  {% endif %}
+                </td>
+                <td class="py-3 px-4 text-outline">{{ line_item.sku }}</td>
+                <td class="py-3 px-4 text-center text-primary font-bold">{{ line_item.quantity }}</td>
+                <td class="py-3 px-4 text-right text-outline">{{ line_item.original_price | money }}</td>
+                <td class="py-3 px-4 text-right text-primary font-bold">{{ line_item.final_line_price | money }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot class="border-t border-surface-container bg-surface-container-low">
+            <tr>
+              <td colspan="4" class="py-2 px-4 text-right text-outline uppercase">SUBTOTAL</td>
+              <td class="py-2 px-4 text-right font-bold text-primary">{{ order.line_items_subtotal_price | money }}</td>
+            </tr>
+            <tr>
+              <td colspan="4" class="py-2 px-4 text-right text-outline uppercase">TRANSIT ({{ order.shipping_methods[0].title }})</td>
+              <td class="py-2 px-4 text-right text-primary">{{ order.shipping_price | money }}</td>
+            </tr>
+            <tr class="border-t border-surface-container text-sm">
+              <td colspan="4" class="py-3 px-4 text-right font-bold text-primary uppercase">TOTAL CHARGED</td>
+              <td class="py-3 px-4 text-right font-bold text-primary">{{ order.total_price | money }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Address Breakdown -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter-desktop">
+        <div class="border border-surface-container bg-surface-container-low p-space-md text-xs space-y-1">
+          <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest block border-b border-surface-container pb-2 mb-2">
+            [ SHIPPING DESTINATION ]
+          </span>
+          <span class="block font-bold text-primary uppercase">{{ order.shipping_address.name }}</span>
+          <span class="block text-outline">{{ order.shipping_address.street }}</span>
+          <span class="block text-outline">{{ order.shipping_address.city }}, {{ order.shipping_address.province_code }} {{ order.shipping_address.zip }}</span>
+          <span class="block text-outline">{{ order.shipping_address.country }}</span>
+        </div>
+        <div class="border border-surface-container bg-surface-container-low p-space-md text-xs space-y-1">
+          <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest block border-b border-surface-container pb-2 mb-2">
+            [ BILLING COORDINATES ]
+          </span>
+          <span class="block font-bold text-primary uppercase">{{ order.billing_address.name }}</span>
+          <span class="block text-outline">{{ order.billing_address.street }}</span>
+          <span class="block text-outline">{{ order.billing_address.city }}, {{ order.billing_address.province_code }} {{ order.billing_address.zip }}</span>
+          <span class="block text-outline">{{ order.billing_address.country }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+{% comment %}
+  KAAZE Size Guide Modal Dialog Snippet
+{% endcomment %}
+
+<div id="sizeGuideModal" class="hidden fixed inset-0 z-50 bg-surface-container-lowest/90 backdrop-blur-md flex items-center justify-center p-margin" role="dialog" aria-modal="true" aria-label="Size Guide">
+  <div class="bg-surface-container-low border border-primary max-w-xl w-full p-space-lg flex flex-col gap-space-md animate-in fade-in zoom-in-95 duration-100">
+    <div class="flex items-center justify-between border-b border-surface-container pb-space-sm">
+      <div class="flex flex-col">
+        <span class="font-label-sm text-label-sm tracking-widest text-outline uppercase font-mono">
+          [ SPEC // METRIC TABLE ]
+        </span>
+        <h3 class="font-headline-md text-headline-md text-primary uppercase font-sans font-bold">
+          SIZE ARCHITECTURE (INCHES)
+        </h3>
+      </div>
+      <button
+        type="button"
+        id="closeSizeGuideBtn"
+        class="text-on-surface hover:text-primary p-1 focus:outline-none cursor-pointer"
+        aria-label="Close size guide"
+      >
+        <span class="material-symbols-outlined text-[24px]">close</span>
+      </button>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left font-label-md text-label-md border-collapse font-mono">
+        <thead>
+          <tr class="border-b border-surface-container text-outline">
+            <th class="py-2 pr-4 font-normal uppercase">SIZE</th>
+            <th class="py-2 px-4 font-normal uppercase">CHEST</th>
+            <th class="py-2 px-4 font-normal uppercase">LENGTH</th>
+            <th class="py-2 px-4 font-normal uppercase">SHOULDER</th>
+            <th class="py-2 pl-4 font-normal uppercase">SLEEVE</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-surface-container font-body-sm text-on-surface">
+          <tr>
+            <td class="py-2.5 pr-4 font-label-md text-primary font-bold">S</td>
+            <td class="py-2.5 px-4 text-on-surface-variant">44.0&quot;</td>
+            <td class="py-2.5 px-4 text-on-surface-variant">28.5&quot;</td>
+            <td class="py-2.5 px-4 text-on-surface-variant">22.0&quot;</td>
+            <td class="py-2.5 pl-4 text-on-surface-variant">8.5&quot;</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 pr-4 font-label-md text-primary font-bold">M</td>
+            <td class="py-2.5 px-4 text-on-surface-variant">46.5&quot;</td>
+            <td class="py-2.5 px-4 text-on-surface-variant">29.5&quot;</td>
+            <td class="py-2.5 px-4 text-on-surface-variant">23.0&quot;</td>
+            <td class="py-2.5 pl-4 text-on-surface-variant">9.0&quot;</td>
+          </tr>
+          <tr class="bg-surface-container">
+            <td class="py-2.5 pr-4 font-label-md text-primary font-bold">L (REF)</td>
+            <td class="py-2.5 px-4 text-primary font-semibold">49.0&quot;</td>
+            <td class="py-2.5 px-4 text-primary font-semibold">30.5&quot;</td>
+            <td class="py-2.5 px-4 text-primary font-semibold">24.0&quot;</td>
+            <td class="py-2.5 pl-4 text-primary font-semibold">9.5&quot;</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 pr-4 font-label-md text-primary font-bold">XL</td>
+            <td class="py-2.5 px-4 text-on-surface-variant">51.5&quot;</td>
+            <td class="py-2.5 px-4 text-on-surface-variant">31.5&quot;</td>
+            <td class="py-2.5 px-4 text-on-surface-variant">25.0&quot;</td>
+            <td class="py-2.5 pl-4 text-on-surface-variant">10.0&quot;</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 pr-4 font-label-md text-primary font-bold">XXL</td>
+            <td class="py-2.5 px-4 text-on-surface-variant">54.0&quot;</td>
+            <td class="py-2.5 px-4 text-on-surface-variant">32.5&quot;</td>
+            <td class="py-2.5 px-4 text-on-surface-variant">26.0&quot;</td>
+            <td class="py-2.5 pl-4 text-on-surface-variant">10.5&quot;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="border-t border-surface-container pt-space-sm flex justify-between items-center text-outline font-label-sm text-label-sm font-mono">
+      <span>TOLERANCE: +/- 0.5 INCHES</span>
+      <button
+        type="button"
+        id="confirmSizeGuideBtn"
+        class="bg-primary text-on-primary px-4 py-1.5 uppercase font-bold tracking-widest text-label-sm hover:bg-surface-container-high hover:text-primary transition-colors cursor-pointer"
+      >
+        CONFIRM
+      </button>
+    </div>
+  </div>
+</div>

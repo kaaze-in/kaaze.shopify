@@ -1,0 +1,188 @@
+{% comment %}
+  KAAZE EDTN Footer Section
+  Bottom brand directives, transmissions, origin node, operational status, and legal signatures.
+{% endcomment %}
+
+<footer class="w-full bg-surface-container-lowest border-t border-surface-container mt-auto">
+  <div class="w-full px-margin md:px-margin-tablet lg:px-margin-desktop py-space-xl">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter-desktop border-b border-surface-container pb-space-xl">
+      <!-- Brand & Manifesto Column -->
+      <div class="md:col-span-6 flex flex-col justify-between pr-0 lg:pr-space-xl">
+        <div class="mb-space-lg">
+          <h2
+            style="font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.12em;"
+            class="font-display-lg text-display-lg-mobile lg:text-display-lg uppercase text-primary tracking-tight leading-none mb-space-sm font-bold"
+          >
+            {{ section.settings.brand_title | default: 'KAAZE' }}
+          </h2>
+          <p class="font-label-sm text-label-sm uppercase tracking-widest text-outline mb-space-xs">
+            {{ section.settings.brand_subtitle | default: '[ TACTICAL LUXURY APPAREL // ARCH-V04 ]' }}
+          </p>
+          <p class="font-body-md text-body-md text-on-surface-variant max-w-md leading-relaxed">
+            {{ section.settings.brand_bio | default: 'Curated essentials and statement pieces for elevated everyday style. Built around individuality, driven by self-expression. Never ordinary.' }}
+          </p>
+        </div>
+        <div class="flex items-center gap-space-sm font-label-sm text-label-sm uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-outline">OPERATIONAL STATUS:</span>
+          <span class="text-primary font-mono">
+            {{ section.settings.status_note | default: settings.operational_status | default: 'DISPATCH ACTIVE // INDIA' }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Directives Navigation Column -->
+      <div class="md:col-span-3 flex flex-col">
+        <h3 class="font-label-md text-label-md uppercase text-outline mb-space-md tracking-widest">
+          [DIRECTIVES]
+        </h3>
+        <nav class="flex flex-col gap-space-sm font-label-md text-label-md uppercase">
+          {% assign footer_menu = section.settings.footer_menu | default: 'footer' %}
+          {% if linklists[footer_menu].links.size > 0 %}
+            {% for link in linklists[footer_menu].links %}
+              <a href="{{ link.url }}" class="text-on-surface-variant hover:text-primary transition-colors">
+                {{ link.title }}
+              </a>
+            {% endfor %}
+          {% else %}
+            <a href="/pages/our-story" class="text-on-surface-variant hover:text-primary transition-colors">
+              About Us
+            </a>
+            <a href="/pages/shipping-returns" class="text-on-surface-variant hover:text-primary transition-colors">
+              Shipping &amp; Logistics
+            </a>
+            <a href="/pages/privacy-policy" class="text-on-surface-variant hover:text-primary transition-colors">
+              Privacy Policy
+            </a>
+            <a href="/pages/terms-conditions" class="text-on-surface-variant hover:text-primary transition-colors">
+              Terms &amp; Conditions
+            </a>
+          {% endif %}
+        </nav>
+      </div>
+
+      <!-- Transmissions / Socials Column -->
+      <div class="md:col-span-3 flex flex-col">
+        <h3 class="font-label-md text-label-md uppercase text-outline mb-space-md tracking-widest">
+          [TRANSMISSIONS]
+        </h3>
+        <nav class="flex flex-col gap-space-sm mb-space-lg font-label-md text-label-md uppercase">
+          {% if settings.social_instagram != blank or section.settings.instagram_url != blank %}
+            <a
+              href="{{ section.settings.instagram_url | default: settings.social_instagram | default: 'https://instagram.com' }}"
+              target="_blank"
+              rel="noreferrer"
+              class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-between border-b border-surface-container py-space-xs"
+            >
+              <span>Instagram</span>
+              <span class="material-symbols-outlined text-[16px]">north_east</span>
+            </a>
+          {% endif %}
+          {% if settings.social_twitter != blank or section.settings.twitter_url != blank %}
+            <a
+              href="{{ section.settings.twitter_url | default: settings.social_twitter | default: 'https://twitter.com' }}"
+              target="_blank"
+              rel="noreferrer"
+              class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-between border-b border-surface-container py-space-xs"
+            >
+              <span>Twitter / X</span>
+              <span class="material-symbols-outlined text-[16px]">north_east</span>
+            </a>
+          {% endif %}
+          {% if settings.social_youtube != blank or section.settings.youtube_url != blank %}
+            <a
+              href="{{ section.settings.youtube_url | default: settings.social_youtube | default: 'https://youtube.com' }}"
+              target="_blank"
+              rel="noreferrer"
+              class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-between border-b border-surface-container py-space-xs"
+            >
+              <span>YouTube</span>
+              <span class="material-symbols-outlined text-[16px]">north_east</span>
+            </a>
+          {% endif %}
+        </nav>
+        <div class="border border-surface-container p-space-sm bg-surface-container-low font-label-sm text-outline">
+          <span class="block text-primary uppercase font-bold mb-1">
+            {{ section.settings.node_title | default: 'MANGALURU ORIGIN NODE' }}
+          </span>
+          <span>{{ section.settings.node_coords | default: '12.9141° N, 74.8560° E' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legal & System Signature -->
+    <div class="pt-space-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm font-label-sm text-label-sm text-outline uppercase tracking-widest">
+      <div>
+        &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. ALL RIGHTS RESERVED. NOT MADE TO FIT IN.
+      </div>
+      <div class="text-on-surface-variant font-mono">
+        SYSTEM CODE: ARCH-V04 // BERLIN-TOKYO
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand_title",
+      "label": "Brand Title",
+      "default": "KAAZE"
+    },
+    {
+      "type": "text",
+      "id": "brand_subtitle",
+      "label": "Brand Subtitle",
+      "default": "[ TACTICAL LUXURY APPAREL // ARCH-V04 ]"
+    },
+    {
+      "type": "textarea",
+      "id": "brand_bio",
+      "label": "Brand Bio",
+      "default": "Curated essentials and statement pieces for elevated everyday style. Built around individuality, driven by self-expression. Never ordinary."
+    },
+    {
+      "type": "text",
+      "id": "status_note",
+      "label": "Operational Status Note",
+      "default": "DISPATCH ACTIVE // INDIA"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu",
+      "label": "Directives Menu",
+      "default": "footer"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "Twitter / X URL"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube URL"
+    },
+    {
+      "type": "text",
+      "id": "node_title",
+      "label": "Origin Node Title",
+      "default": "MANGALURU ORIGIN NODE"
+    },
+    {
+      "type": "text",
+      "id": "node_coords",
+      "label": "Coordinates",
+      "default": "12.9141° N, 74.8560° E"
+    }
+  ]
+}
+{% endschema %}

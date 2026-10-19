@@ -1,0 +1,76 @@
+{% comment %}
+  KAAZE EDTN Predictive Search Modal Snippet
+  Rendered globally in layout/theme.liquid
+{% endcomment %}
+
+<div id="searchModal" class="hidden fixed inset-0 z-50 flex items-start justify-center pt-20 px-margin" role="dialog" aria-modal="true" aria-label="Search Archive">
+  <!-- Backdrop -->
+  <div id="searchBackdrop" class="fixed inset-0 bg-surface-container-lowest/80 backdrop-blur-sm transition-opacity"></div>
+
+  <!-- Modal Box -->
+  <div class="relative w-full max-w-2xl bg-surface-container-lowest border border-surface-container shadow-2xl overflow-hidden flex flex-col z-10 animate-in fade-in zoom-in-95 duration-150">
+    <!-- Input Bar -->
+    <div class="flex items-center px-space-md py-space-sm border-b border-surface-container gap-space-sm">
+      <span class="material-symbols-outlined text-outline text-[20px]">search</span>
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="SEARCH ARTIFACTS, SPECIFICATIONS, CATEGORIES..."
+        class="w-full bg-transparent font-label-md text-label-md text-on-surface placeholder:text-outline focus:outline-none uppercase"
+        autocomplete="off"
+      >
+      <button
+        type="button"
+        id="searchClearBtn"
+        class="hidden text-outline hover:text-primary transition-colors text-[14px] cursor-pointer"
+      >
+        [CLEAR]
+      </button>
+      <button
+        type="button"
+        id="closeSearchModal"
+        class="text-outline hover:text-primary transition-colors p-1 cursor-pointer"
+        aria-label="Close search dialog"
+      >
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+
+    <!-- Suggestions / Results Container -->
+    <div id="searchResultsContainer" class="max-h-[60vh] overflow-y-auto p-space-md flex flex-col gap-space-sm">
+      <!-- Default Indexed Categories -->
+      <div id="searchDefaultSuggestions" class="flex flex-col gap-space-md py-space-sm text-outline">
+        <span class="font-label-sm text-label-sm uppercase tracking-widest text-outline">
+          [ INDEXED COLLECTIONS ]
+        </span>
+        <div class="flex flex-wrap gap-space-xs font-label-md text-label-md uppercase">
+          <a href="{{ routes.collections_url }}/clothing" class="px-space-sm py-space-xs border border-surface-container hover:border-primary hover:text-primary transition-colors">
+            CLOTHING
+          </a>
+          <a href="{{ routes.collections_url }}/shoes" class="px-space-sm py-space-xs border border-surface-container hover:border-primary hover:text-primary transition-colors">
+            SHOES
+          </a>
+          <a href="{{ routes.collections_url }}/watches" class="px-space-sm py-space-xs border border-surface-container hover:border-primary hover:text-primary transition-colors">
+            WATCHES
+          </a>
+          <a href="{{ routes.collections_url }}/accessories" class="px-space-sm py-space-xs border border-surface-container hover:border-primary hover:text-primary transition-colors">
+            ACCESSORIES
+          </a>
+        </div>
+      </div>
+
+      <!-- Live Results Injected by JS -->
+      <div id="searchLiveResults" class="hidden flex-col divide-y divide-surface-container"></div>
+
+      <!-- Empty State -->
+      <div id="searchEmptyState" class="hidden py-space-xl text-center flex flex-col items-center gap-space-xs text-outline">
+        <span class="font-label-md text-label-md uppercase">
+          [ NO MATCHING SPECIFICATIONS LOCATED ]
+        </span>
+        <span class="font-body-sm text-body-sm">
+          Try searching for "Oversized", "Cargo", "Boots", "Watch" or a collection category.
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

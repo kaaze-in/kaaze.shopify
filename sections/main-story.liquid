@@ -1,0 +1,106 @@
+{% comment %}
+  KAAZE EDTN Our Story / Brand Manifesto Section
+{% endcomment %}
+
+<div class="flex flex-col w-full text-on-surface">
+  <!-- Top Meta Bar -->
+  <div class="w-full bg-surface-container-lowest px-margin md:px-margin-desktop py-space-sm border-b border-surface-container font-mono">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+      <div class="flex items-center gap-space-md flex-wrap">
+        <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">
+          [ OUR STORY // THE MANIFESTO ]
+        </span>
+        <span class="hidden sm:inline text-outline-variant">|</span>
+        <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">
+          PHILOSOPHY &amp; DISCOVERY
+        </span>
+      </div>
+      <span class="font-label-sm text-label-sm text-outline uppercase">
+        {{ shop.name }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Hero Visual Section -->
+  <section class="relative w-full bg-surface-container-lowest border-b border-surface-container overflow-hidden">
+    <div class="relative min-h-[60vh] flex flex-col justify-end p-margin md:p-margin-desktop pb-space-xl">
+      <div
+        class="absolute inset-0 bg-cover bg-center grayscale contrast-125 brightness-[0.7]"
+        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB2k4SiBPyYWZreJ4BD1KkkKX0e2YqZP8OohOsBBXJymgPxz5TP5sR4nj3ldkLOIRaz5Nl5qBkTDfU5XJQPw6GIYxpjs1sQmNieyxnQR6hwsfFA420ewgzPmcaQMwCKzezx5elYg7lDQtI1A3F1dRF0VOe71ppkd0c6kw-gqGRxG5b12QbDLnEX3b-PmLnG2DM_VMXQtfrNqnsUufb1LGE7M7Tt1IfmvCXzMZTTMySAFqNKmIXX7iI');"
+      ></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/60 to-transparent"></div>
+
+      <div class="relative z-10 max-w-4xl space-y-space-md">
+        <div class="font-label-sm text-label-sm uppercase tracking-[0.25em] text-outline font-mono">
+          KAAZE
+        </div>
+        <h1 class="font-display-xl text-display-xl-mobile md:text-display-xl uppercase text-primary tracking-tight leading-none font-sans font-bold">
+          NOT MADE TO FIT IN.
+        </h1>
+        <p class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary uppercase leading-tight font-sans font-semibold">
+          BORN FROM INDIVIDUALITY. DRIVEN BY DISCOVERY.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Editorial Content Grid -->
+  <div class="w-full px-margin md:px-margin-desktop py-space-xl">
+    <div class="max-w-5xl mx-auto space-y-space-xl">
+      <!-- Quote Block -->
+      <blockquote class="border-l-4 border-primary pl-space-md md:pl-space-lg py-space-xs font-sans">
+        <p class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary uppercase leading-snug">
+          &ldquo;Fashion is more than what you wear &mdash; it&rsquo;s how you express who you are. We believe style should be effortless, authentic, and unapologetically unique.&rdquo;
+        </p>
+      </blockquote>
+
+      <!-- Pillars Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter-desktop border-t border-b border-surface-container py-space-xl">
+        <div class="flex flex-col space-y-space-xs font-mono">
+          <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">[ 01 // PILLAR ]</span>
+          <h3 class="font-title-lg text-title-lg uppercase text-primary font-bold font-sans">
+            BOLD &amp; UNAPOLOGETIC
+          </h3>
+          <p class="font-body-md text-on-surface-variant font-sans pt-1 leading-relaxed">
+            Every piece is curated to help you make a statement without saying a word. No conforming to outdated norms.
+          </p>
+        </div>
+        <div class="flex flex-col space-y-space-xs font-mono">
+          <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">[ 02 // PILLAR ]</span>
+          <h3 class="font-title-lg text-title-lg uppercase text-primary font-bold font-sans">
+            CURATED WITH PURPOSE
+          </h3>
+          <p class="font-body-md text-on-surface-variant font-sans pt-1 leading-relaxed">
+            From modern essentials to tactical silhouettes, our collections are selected for versatility, quality, and timeless relevance.
+          </p>
+        </div>
+        <div class="flex flex-col space-y-space-xs font-mono">
+          <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">[ 03 // PILLAR ]</span>
+          <h3 class="font-title-lg text-title-lg uppercase text-primary font-bold font-sans">
+            FOR THE TRENDSETTERS
+          </h3>
+          <p class="font-body-md text-on-surface-variant font-sans pt-1 leading-relaxed">
+            We don&rsquo;t follow the crowd. KAAZE is built for individuals who set their own pace and own their personal vibe.
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="flex justify-center pt-space-md font-mono">
+        <a
+          href="{{ routes.all_products_collection_url }}"
+          class="px-space-xl py-4 bg-primary text-on-primary font-label-md text-label-md uppercase tracking-[0.2em] font-bold hover:bg-surface-container-high hover:text-primary transition-all border border-primary"
+        >
+          [ EXPLORE ARCHIVE ]
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Our Story Section",
+  "settings": []
+}
+{% endschema %}

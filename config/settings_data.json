@@ -1,0 +1,24 @@
+{
+  "current": {
+    "color_primary": "#0a0a0a",
+    "color_surface": "#ffffff",
+    "color_surface_dark": "#131313",
+    "color_border": "#e4e4e7",
+    "free_shipping_threshold": 2500,
+    "fulfillment_node": "MANGALURU ORIGIN NODE // 12.9141° N, 74.8560° E",
+    "operational_status": "DISPATCH ACTIVE // INDIA",
+    "social_instagram": "https://instagram.com",
+    "social_twitter": "https://twitter.com",
+    "social_youtube": "https://youtube.com",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {}
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {}
+      }
+    }
+  }
+}

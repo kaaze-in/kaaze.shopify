@@ -1,0 +1,32 @@
+{% comment %}
+  KAAZE EDTN 404 Error Terminal Section
+{% endcomment %}
+
+<div class="flex flex-col items-center justify-center flex-1 py-space-xl px-margin text-center font-mono">
+  <div class="max-w-xl w-full p-space-xl bg-surface-container-low border border-surface-container flex flex-col items-center gap-space-md">
+    <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+      [ ERROR // TERMINAL STATUS: 404 ]
+    </span>
+    <h1 class="font-display-xl text-display-xl-mobile md:text-display-xl uppercase text-primary tracking-tight font-sans font-bold leading-none">
+      COORDINATE VOID.
+    </h1>
+    <p class="font-body-md text-on-surface-variant max-w-md font-sans">
+      The requested specification, handle, or URL coordinate does not exist in the active KAAZE archive.
+    </p>
+    <div class="pt-space-sm">
+      <a
+        href="{{ routes.root_url }}"
+        class="inline-flex items-center justify-center px-space-lg py-3.5 bg-primary text-on-primary font-label-md text-label-md uppercase tracking-[0.2em] font-bold hover:bg-surface-container-high hover:text-primary transition-all border border-primary"
+      >
+        [ RETURN TO STOREFRONT ]
+      </a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "404 Error Terminal",
+  "settings": []
+}
+{% endschema %}

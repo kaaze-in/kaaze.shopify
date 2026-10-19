@@ -1,0 +1,76 @@
+{
+  "general": {
+    "search": {
+      "placeholder": "SEARCH ARTIFACTS, SPECIFICATIONS, CATEGORIES...",
+      "clear": "[CLEAR]",
+      "no_results": "[ NO MATCHING SPECIFICATIONS LOCATED ]",
+      "heading": "SEARCH ARCHIVE"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "404": {
+      "title": "404 // ARTIFACT NOT FOUND",
+      "subtext": "The requested specification or coordinate does not exist in the active archive.",
+      "link": "RETURN TO STOREFRONT"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "ADD TO CART",
+      "sold_out": "ARCHIVED // SOLD OUT",
+      "unavailable": "UNAVAILABLE",
+      "allocated": "✓ ALLOCATED TO CART",
+      "direct_checkout": "DIRECT CHECKOUT",
+      "select_size": "SELECT SIZE",
+      "colorway": "COLORWAY",
+      "quantity": "QUANTITY",
+      "size_guide": "[ SIZE GUIDE ]"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "YOUR BAG // TERMINAL",
+      "empty": "YOUR BAG IS EMPTY",
+      "continue_shopping": "EXPLORE FULL ARCHIVE",
+      "subtotal": "SUBTOTAL",
+      "taxes_and_shipping_policy_at_checkout_html": "Taxes and express transit calculated at checkout.",
+      "checkout": "PROCEED TO CHECKOUT",
+      "remove": "[REMOVE]"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "CUSTOMER ACCOUNT",
+      "orders": "ORDER HISTORY",
+      "details": "ACCOUNT DETAILS",
+      "view_addresses": "VIEW ADDRESSES",
+      "return": "RETURN TO ACCOUNT"
+    },
+    "orders": {
+      "order_number": "ORDER",
+      "date": "DATE",
+      "payment_status": "PAYMENT STATUS",
+      "fulfillment_status": "FULFILLMENT STATUS",
+      "total": "TOTAL",
+      "none": "NO LOGGED ORDERS IN DISPATCH ARCHIVE."
+    },
+    "login_page": {
+      "title": "SIGN IN",
+      "email": "EMAIL",
+      "password": "PASSWORD",
+      "forgot_password": "FORGOT PASSWORD?",
+      "submit": "AUTHENTICATE",
+      "create_account": "CREATE ACCOUNT"
+    },
+    "register": {
+      "title": "REGISTER ACCOUNT",
+      "first_name": "FIRST NAME",
+      "last_name": "LAST NAME",
+      "email": "EMAIL",
+      "password": "PASSWORD",
+      "submit": "INITIALIZE ACCOUNT"
+    }
+  }
+}

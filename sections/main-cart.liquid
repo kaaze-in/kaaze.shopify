@@ -1,0 +1,252 @@
+{% comment %}
+  KAAZE EDTN Main Cart Terminal Section
+  Native Shopify cart with free transit meter, line items, quantity steppers, and direct checkout.
+{% endcomment %}
+
+<div class="flex flex-col w-full text-on-surface" id="MainCartSection">
+  <!-- TOP CONTEXT UTILITY / ARCHIVE STATUS BAR -->
+  <div class="w-full bg-surface-container-lowest px-margin md:px-margin-desktop py-space-sm border-b border-surface-container font-mono">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+      <div class="flex items-center gap-space-md flex-wrap">
+        <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">
+          [ ARCHIVE REF: {{ 'now' | date: '%Y' }}-CRT // DISPATCH ORDER ]
+        </span>
+        <span class="hidden sm:inline text-outline-variant">|</span>
+        <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">
+          KAAZE CART TERMINAL
+        </span>
+      </div>
+      <span class="font-label-sm text-label-sm text-outline uppercase">
+        {{ cart.item_count }} ALLOCATED ITEMS
+      </span>
+    </div>
+  </div>
+
+  <!-- MAIN CART CONTENT AREA -->
+  <div class="w-full px-margin md:px-margin-desktop py-space-lg md:py-space-xl">
+    {% if cart.item_count == 0 %}
+      <!-- EMPTY CART VIEW -->
+      <div class="w-full flex flex-col items-center justify-center py-space-xl text-center space-y-space-lg">
+        <div class="relative w-full max-w-xl aspect-[16/9] bg-surface-container-lowest border border-surface-container overflow-hidden flex items-center justify-center">
+          <img
+            alt="Empty Runway"
+            class="w-full h-full object-cover grayscale contrast-125 opacity-40"
+            src="{{ 'empty-runway.jpg' | asset_url }}"
+            width="800"
+            height="450"
+            loading="lazy"
+          >
+          <div class="absolute inset-0 flex flex-col items-center justify-center p-space-md bg-gradient-to-t from-surface via-surface/60 to-transparent font-mono">
+            <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest mb-1">
+              [ TERMINAL STATUS: VOID ]
+            </span>
+            <h2 class="font-display-lg text-headline-lg md:text-display-lg uppercase text-primary tracking-tight font-sans font-bold">
+              YOUR BAG IS EMPTY.
+            </h2>
+            <p class="font-body-sm text-on-surface-variant max-w-sm mt-1 font-sans">
+              No garments or tactical accessories currently allocated to your dispatch session.
+            </p>
+          </div>
+        </div>
+
+        <div class="pt-space-xs font-mono">
+          <a
+            href="{{ routes.all_products_collection_url }}"
+            class="inline-flex items-center justify-center px-space-xl py-4 bg-primary text-on-primary font-label-md text-label-md uppercase tracking-[0.2em] font-bold hover:bg-surface-container-high hover:text-primary transition-all border border-primary"
+          >
+            [ EXPLORE FULL ARCHIVE ]
+          </a>
+        </div>
+      </div>
+
+    {% else %}
+      <!-- POPULATED CART VIEW -->
+      <form action="{{ routes.cart_url }}" method="post" id="cartForm">
+        <!-- Complimentary Transit Progress Meter -->
+        {% assign threshold_amount = settings.free_shipping_threshold | default: 2500 | times: 100 %}
+        {% assign cart_subtotal = cart.total_price %}
+        {% assign has_free_shipping = false %}
+        {% if cart_subtotal >= threshold_amount %}
+          {% assign has_free_shipping = true %}
+        {% endif %}
+        {% assign progress_pct = cart_subtotal | times: 100 | divided_by: threshold_amount %}
+        {% if progress_pct > 100 %}
+          {% assign progress_pct = 100 %}
+        {% endif %}
+
+        <div class="max-w-6xl mx-auto mb-space-lg p-space-md bg-surface-container-low border border-surface-container font-mono">
+          <div class="flex items-center justify-between font-label-sm text-label-sm uppercase tracking-wider mb-2">
+            <span class="text-primary font-bold">
+              {% if has_free_shipping %}
+                [ COMPLIMENTARY TRANSIT UNLOCKED &mdash; DOMESTIC DISPATCH ]
+              {% else %}
+                {% assign remaining = threshold_amount | minus: cart_subtotal %}
+                ADD {{ remaining | money }} TO UNLOCK COMPLIMENTARY TRANSIT
+              {% endif %}
+            </span>
+            <span class="text-outline">{{ progress_pct }}%</span>
+          </div>
+          <div class="w-full h-1.5 bg-surface-container overflow-hidden">
+            <div class="h-full bg-primary transition-all duration-300" style="width: {{ progress_pct }}%;"></div>
+          </div>
+        </div>
+
+        <!-- 2-Column Cart Grid -->
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-start">
+          <!-- Left Column: Line Items (7 of 12) -->
+          <div class="lg:col-span-7 flex flex-col divide-y divide-surface-container border-t border-b border-surface-container">
+            {% for item in cart.items %}
+              <div class="py-space-md flex gap-space-md">
+                <!-- Thumbnail -->
+                <a href="{{ item.url }}" class="w-24 h-32 bg-surface-container flex-shrink-0 overflow-hidden block">
+                  {% if item.image != blank %}
+                    <img
+                      src="{{ item.image | image_url: width: 300 }}"
+                      alt="{{ item.title | escape }}"
+                      class="w-full h-full object-cover grayscale contrast-125"
+                      width="96"
+                      height="128"
+                    >
+                  {% endif %}
+                </a>
+
+                <!-- Details -->
+                <div class="flex flex-col justify-between flex-1 min-w-0 font-mono">
+                  <div class="flex flex-col gap-1">
+                    <div class="flex items-start justify-between gap-space-xs">
+                      <div>
+                        <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest block">
+                          {{ item.sku | default: item.product.id | prepend: 'KZ-' | slice: 0, 8 }}
+                        </span>
+                        <a href="{{ item.url }}">
+                          <h3 class="font-title-lg text-headline-sm uppercase text-primary font-bold font-sans line-clamp-1 hover:text-primary/80">
+                            {{ item.product.title }}
+                          </h3>
+                        </a>
+                      </div>
+                      <span class="font-title-lg text-primary font-bold">
+                        {{ item.final_line_price | money }}
+                      </span>
+                    </div>
+
+                    <!-- Variant Details -->
+                    {% unless item.product.has_only_default_variant %}
+                      <div class="flex items-center gap-2 text-xs text-outline font-mono uppercase mt-1">
+                        {% for option in item.options_with_values %}
+                          <span>{{ option.name }}: <strong class="text-primary">{{ option.value }}</strong></span>
+                          {% unless forloop.last %}<span>•</span>{% endunless %}
+                        {% endfor %}
+                      </div>
+                    {% endunless %}
+                  </div>
+
+                  <!-- Quantity Controls & Remove Action -->
+                  <div class="flex items-center justify-between pt-2 border-t border-surface-container-high mt-space-xs">
+                    <div class="flex items-center border border-surface-container h-8">
+                      <a
+                        href="{{ routes.cart_change_url }}?id={{ item.key }}&quantity={{ item.quantity | minus: 1 }}"
+                        class="w-8 h-full flex items-center justify-center hover:bg-surface-container text-outline hover:text-primary"
+                        aria-label="Decrease quantity"
+                      >
+                        &mdash;
+                      </a>
+                      <span class="w-8 text-center text-xs text-primary font-bold">
+                        {{ item.quantity }}
+                      </span>
+                      <a
+                        href="{{ routes.cart_change_url }}?id={{ item.key }}&quantity={{ item.quantity | plus: 1 }}"
+                        class="w-8 h-full flex items-center justify-center hover:bg-surface-container text-outline hover:text-primary"
+                        aria-label="Increase quantity"
+                      >
+                        +
+                      </a>
+                    </div>
+
+                    <a
+                      href="{{ routes.cart_change_url }}?id={{ item.key }}&quantity=0"
+                      class="text-outline hover:text-red-500 font-label-sm text-label-sm uppercase transition-colors"
+                    >
+                      [REMOVE]
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- Right Column: Order Summary (5 of 12) -->
+          <div class="lg:col-span-5 bg-surface-container-low border border-surface-container p-space-lg flex flex-col gap-space-md font-mono">
+            <div class="border-b border-surface-container pb-space-sm flex items-center justify-between">
+              <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+                [ DISPATCH SPECIFICATION ]
+              </span>
+              <span class="text-primary font-bold text-xs uppercase">CHECKOUT SECURE</span>
+            </div>
+
+            <!-- Summary Breakdown -->
+            <div class="flex flex-col gap-space-xs text-sm">
+              <div class="flex justify-between py-1 border-b border-surface-container-high">
+                <span class="text-outline uppercase">SUBTOTAL</span>
+                <span class="text-primary font-bold font-title-lg">{{ cart.total_price | money }}</span>
+              </div>
+              <div class="flex justify-between py-1 border-b border-surface-container-high text-xs">
+                <span class="text-outline uppercase">ESTIMATED TRANSIT</span>
+                <span class="text-primary">
+                  {% if has_free_shipping %}
+                    FREE (COMPLIMENTARY)
+                  {% else %}
+                    CALCULATED AT CHECKOUT
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+
+            <!-- Order Notes Input -->
+            <div class="flex flex-col gap-1 pt-space-xs">
+              <label for="CartSpecialInstructions" class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+                SPECIAL DISPATCH DIRECTIVES (OPTIONAL):
+              </label>
+              <textarea
+                name="note"
+                id="CartSpecialInstructions"
+                rows="2"
+                class="w-full bg-surface-container-lowest border border-surface-container p-2 font-mono text-xs uppercase text-on-surface focus:outline-none focus:border-primary resize-none"
+                placeholder="GATE CODE, SPECIFIC COURIER INSTRUCTIONS..."
+              >{{ cart.note }}</textarea>
+            </div>
+
+            <!-- Native Shopify Checkout Button -->
+            <div class="pt-space-sm flex flex-col gap-space-xs">
+              <button
+                type="submit"
+                name="checkout"
+                class="w-full py-4 bg-primary text-on-primary font-label-md text-label-md uppercase tracking-[0.2em] font-bold border border-primary hover:bg-surface-container-high hover:text-primary transition-all flex items-center justify-center gap-space-sm cursor-pointer"
+              >
+                <span class="material-symbols-outlined text-[18px]">lock</span>
+                <span>PROCEED TO CHECKOUT</span>
+              </button>
+
+              <a
+                href="{{ routes.all_products_collection_url }}"
+                class="w-full py-2.5 text-center text-outline hover:text-primary text-xs uppercase tracking-wider transition-colors"
+              >
+                CONTINUE BROWSING CATALOGUE &rarr;
+              </a>
+            </div>
+
+            <div class="border-t border-surface-container pt-space-sm text-[10px] text-outline uppercase tracking-wider">
+              Protected by 256-bit SSL encryption. Native Shopify checkout with multi-currency handling.
+            </div>
+          </div>
+        </div>
+      </form>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart Terminal",
+  "settings": []
+}
+{% endschema %}

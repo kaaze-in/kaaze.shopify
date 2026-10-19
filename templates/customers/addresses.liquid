@@ -1,0 +1,67 @@
+{% comment %}
+  KAAZE EDTN Customer Addresses Template
+{% endcomment %}
+
+<div class="flex flex-col w-full text-on-surface font-mono">
+  <!-- Top Meta Bar -->
+  <div class="w-full bg-surface-container-lowest px-margin md:px-margin-desktop py-space-sm border-b border-surface-container">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+      <div class="flex items-center gap-space-md flex-wrap">
+        <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">
+          [ ADDRESS DIRECTORY // DISPATCH COORDINATES ]
+        </span>
+        <span class="hidden sm:inline text-outline-variant">|</span>
+        <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">
+          CUSTOMER ADDRESS MATRIX
+        </span>
+      </div>
+      <a href="{{ routes.account_url }}" class="text-xs uppercase text-primary font-bold hover:underline">
+        &larr; RETURN TO ACCOUNT TERMINAL
+      </a>
+    </div>
+  </div>
+
+  <div class="w-full px-margin md:px-margin-desktop py-space-xl">
+    <div class="max-w-5xl mx-auto space-y-space-xl">
+      <div class="flex items-center justify-between border-b border-surface-container pb-space-sm">
+        <h1 class="font-display-lg text-headline-lg uppercase text-primary font-sans font-bold">
+          SAVED COORDINATES ({{ customer.addresses_count }})
+        </h1>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter-desktop">
+        {% for address in customer.addresses %}
+          <div class="bg-surface-container-low border border-surface-container p-space-md flex flex-col justify-between gap-space-sm">
+            <div class="space-y-1 text-xs">
+              {% if address == customer.default_address %}
+                <span class="px-2 py-0.5 bg-primary text-on-primary text-[10px] font-bold uppercase inline-block mb-1">
+                  DEFAULT DISPATCH ADDRESS
+                </span>
+              {% endif %}
+              <span class="block font-bold text-primary uppercase text-sm">{{ address.name }}</span>
+              <span class="block text-outline">{{ address.street }}</span>
+              <span class="block text-outline">{{ address.city }}, {{ address.province_code }} {{ address.zip }}</span>
+              <span class="block text-outline">{{ address.country }}</span>
+              {% if address.phone != blank %}
+                <span class="block text-outline">TEL: {{ address.phone }}</span>
+              {% endif %}
+            </div>
+
+            <div class="pt-2 border-t border-surface-container flex items-center justify-end gap-space-sm">
+              <form
+                method="post"
+                action="{{ routes.account_addresses_url }}/{{ address.id }}"
+                onsubmit="return confirm('Confirm deletion of dispatch coordinate?');"
+              >
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit" class="text-outline hover:text-red-500 text-xs uppercase cursor-pointer">
+                  [DELETE]
+                </button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+{% comment %}
+  KAAZE EDTN Customer Account Activation Template
+{% endcomment %}
+
+<div class="flex flex-col items-center justify-center flex-1 py-space-xl px-margin font-mono">
+  <div class="max-w-md w-full bg-surface-container-low border border-surface-container p-space-lg md:p-space-xl space-y-space-md">
+    <div class="border-b border-surface-container pb-space-sm flex items-center justify-between">
+      <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+        [ CLIENT PROTOCOL // ACTIVATION ]
+      </span>
+      <span class="text-xs text-primary font-bold">KAAZE</span>
+    </div>
+
+    <div>
+      <h1 class="font-display-lg text-headline-lg uppercase text-primary font-sans font-bold leading-tight">
+        ACTIVATE ACCOUNT.
+      </h1>
+      <p class="font-body-sm text-on-surface-variant font-sans mt-1">
+        Create your security key to activate your client profile.
+      </p>
+    </div>
+
+    {% form 'activate_customer_password', class: 'flex flex-col gap-space-sm' %}
+      {% if form.errors %}
+        <div class="p-space-xs bg-red-500/10 border border-red-500 text-red-500 text-xs">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      <div class="flex flex-col gap-1">
+        <label for="CustomerPassword" class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+          SECURITY KEY:
+        </label>
+        <input
+          type="password"
+          name="customer[password]"
+          id="CustomerPassword"
+          required
+          class="w-full bg-surface-container-lowest border border-surface-container p-3 font-mono text-xs text-primary focus:outline-none focus:border-primary"
+        >
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label for="CustomerPasswordConfirmation" class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+          CONFIRM SECURITY KEY:
+        </label>
+        <input
+          type="password"
+          name="customer[password_confirmation]"
+          id="CustomerPasswordConfirmation"
+          required
+          class="w-full bg-surface-container-lowest border border-surface-container p-3 font-mono text-xs text-primary focus:outline-none focus:border-primary"
+        >
+      </div>
+
+      <div class="pt-space-xs flex flex-col gap-space-xs">
+        <button
+          type="submit"
+          class="w-full py-3.5 bg-primary text-on-primary font-label-md text-label-md uppercase tracking-[0.2em] font-bold border border-primary hover:bg-surface-container-high hover:text-primary transition-all cursor-pointer"
+        >
+          [ ACTIVATE ACCOUNT ]
+        </button>
+        <button
+          type="submit"
+          name="decline"
+          class="w-full py-2.5 text-center text-xs text-outline hover:text-primary uppercase transition-colors"
+        >
+          DECLINE INVITATION
+        </button>
+      </div>
+    {% endform %}
+  </div>
+</div>

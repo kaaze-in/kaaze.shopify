@@ -1,0 +1,157 @@
+{% comment %}
+  KAAZE EDTN Main Collection / Catalogue Section
+  Horizontal category strip, sort selector, and responsive brutalist product grid.
+{% endcomment %}
+
+{% paginate collection.products by section.settings.products_per_page %}
+<div class="flex flex-col w-full flex-1">
+  <!-- Sticky Horizontal Category Navigation Bar -->
+  <div class="sticky top-16 z-40 w-full bg-surface-container-lowest border-b border-surface-container">
+    <div class="w-full px-margin md:px-margin-tablet lg:px-margin-desktop py-space-xs flex flex-wrap md:flex-nowrap items-center justify-between gap-space-sm font-mono">
+      <!-- Category Strip -->
+      <nav class="flex items-center gap-space-xs overflow-x-auto flex-nowrap py-space-xs">
+        {% assign current_handle = collection.handle %}
+        <a
+          href="{{ routes.all_products_collection_url }}"
+          class="font-label-md text-label-md uppercase tracking-wider px-3 py-1.5 transition-all duration-100 flex items-center gap-1.5 whitespace-nowrap {% if current_handle == 'all' or current_handle == blank %}bg-primary text-on-primary font-bold{% else %}border border-surface-container hover:border-primary text-on-surface-variant hover:text-primary{% endif %}"
+        >
+          <span>ALL</span>
+        </a>
+        <a
+          href="{{ routes.collections_url }}/clothing"
+          class="font-label-md text-label-md uppercase tracking-wider px-3 py-1.5 transition-all duration-100 flex items-center gap-1.5 whitespace-nowrap {% if current_handle == 'clothing' %}bg-primary text-on-primary font-bold{% else %}border border-surface-container hover:border-primary text-on-surface-variant hover:text-primary{% endif %}"
+        >
+          <span>CLOTHING</span>
+        </a>
+        <a
+          href="{{ routes.collections_url }}/shoes"
+          class="font-label-md text-label-md uppercase tracking-wider px-3 py-1.5 transition-all duration-100 flex items-center gap-1.5 whitespace-nowrap {% if current_handle == 'shoes' %}bg-primary text-on-primary font-bold{% else %}border border-surface-container hover:border-primary text-on-surface-variant hover:text-primary{% endif %}"
+        >
+          <span>SHOES</span>
+        </a>
+        <a
+          href="{{ routes.collections_url }}/watches"
+          class="font-label-md text-label-md uppercase tracking-wider px-3 py-1.5 transition-all duration-100 flex items-center gap-1.5 whitespace-nowrap {% if current_handle == 'watches' %}bg-primary text-on-primary font-bold{% else %}border border-surface-container hover:border-primary text-on-surface-variant hover:text-primary{% endif %}"
+        >
+          <span>WATCHES</span>
+        </a>
+        <a
+          href="{{ routes.collections_url }}/accessories"
+          class="font-label-md text-label-md uppercase tracking-wider px-3 py-1.5 transition-all duration-100 flex items-center gap-1.5 whitespace-nowrap {% if current_handle == 'accessories' %}bg-primary text-on-primary font-bold{% else %}border border-surface-container hover:border-primary text-on-surface-variant hover:text-primary{% endif %}"
+        >
+          <span>ACCESSORIES</span>
+        </a>
+      </nav>
+
+      <!-- Right Utility Bar: Item Count & Sort Select -->
+      <div class="flex items-center gap-space-md ml-auto">
+        <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest hidden sm:inline">
+          [ {{ collection.products_count }} ARTIFACTS ]
+        </span>
+
+        <!-- Sort Form -->
+        <div class="relative">
+          <label for="SortBy" class="sr-only">Sort by</label>
+          <select
+            name="sort_by"
+            id="SortBy"
+            class="bg-surface-container-low border border-surface-container px-3 py-1.5 font-label-md text-label-md uppercase text-primary tracking-wider focus:outline-none cursor-pointer"
+            onchange="location.href = window.location.pathname + '?sort_by=' + this.value;"
+          >
+            {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+            <option value="manual" {% if sort_by == 'manual' %}selected{% endif %}>FEATURED</option>
+            <option value="price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>PRICE: LOW TO HIGH</option>
+            <option value="price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>PRICE: HIGH TO LOW</option>
+            <option value="created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>NEWEST FIRST</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Collection Header Banner -->
+  <div class="w-full bg-surface-container-lowest px-margin md:px-margin-tablet lg:px-margin-desktop py-space-md border-b border-surface-container">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-space-xs font-mono">
+      <div>
+        <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+          [ CATALOGUE // DIRECTORY ]
+        </span>
+        <h1 class="font-display-lg text-headline-lg lg:text-display-lg uppercase text-primary tracking-tight font-sans font-bold leading-none mt-1">
+          {{ collection.title | default: 'COMPLETE ARCHIVE' }}
+        </h1>
+      </div>
+      {% if collection.description != blank %}
+        <p class="font-body-sm text-on-surface-variant max-w-md font-sans">
+          {{ collection.description | strip_html }}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Product Grid Container (Responsive: 2 on mobile, 3 on tablet, 4 on desktop, matching reference) -->
+  <div class="w-full px-margin md:px-margin-tablet lg:px-margin-desktop py-space-lg">
+    {% if collection.products.size > 0 %}
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+        {% for product in collection.products %}
+          {% render 'product-card', product: product, card_variant: 'catalog' %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="py-space-xl text-center flex flex-col items-center gap-space-md text-outline font-mono">
+        <span class="font-headline-md text-headline-md uppercase text-primary">
+          [ ZERO ARTIFACTS IN SECTOR ]
+        </span>
+        <p class="font-body-md text-on-surface-variant">
+          No matching garments or pieces located in this specification.
+        </p>
+        <a
+          href="{{ routes.all_products_collection_url }}"
+          class="px-6 py-2.5 bg-primary text-on-primary font-label-md text-label-md uppercase tracking-widest"
+        >
+          RETURN TO FULL CATALOGUE
+        </a>
+      </div>
+    {% endif %}
+
+    <!-- Pagination -->
+    {% if paginate.pages > 1 %}
+      <div class="mt-space-xl pt-space-md border-t border-surface-container flex items-center justify-between font-mono font-label-md text-label-md">
+        <div>
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}" class="hover:text-primary text-outline uppercase">
+              &larr; PREVIOUS
+            </a>
+          {% endif %}
+        </div>
+        <div class="text-outline uppercase">
+          PAGE {{ paginate.current_page }} OF {{ paginate.pages }}
+        </div>
+        <div>
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}" class="hover:text-primary text-outline uppercase">
+              NEXT &rarr;
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Main Collection",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "default": 24,
+      "label": "Products per page"
+    }
+  ]
+}
+{% endschema %}

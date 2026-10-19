@@ -1,0 +1,412 @@
+{% comment %}
+  KAAZE EDTN Main Product Section
+  Two-column asymmetric layout, high-contrast gallery, variant selector, quantity stepper,
+  assurance badges, and technical spec accordions.
+{% endcomment %}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign featured_media = current_variant.featured_media | default: product.featured_media | default: product.featured_image %}
+{% assign compare_price = current_variant.compare_at_price | default: product.compare_at_price %}
+{% assign price = current_variant.price | default: product.price %}
+
+<div class="flex flex-col w-full text-on-surface" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}">
+  <!-- TOP CONTEXT / BREADCRUMB BAR -->
+  <div class="w-full bg-surface-container-lowest px-margin md:px-margin-tablet lg:px-margin-desktop py-space-sm border-b border-surface-container font-mono">
+    <div class="flex flex-wrap items-center justify-between gap-space-xs font-label-sm text-label-sm tracking-widest text-outline">
+      <nav class="flex items-center gap-space-xs uppercase">
+        <a href="{{ routes.root_url }}" class="hover:text-primary transition-colors">HOME</a>
+        <span class="text-surface-bright">/</span>
+        <a href="{{ routes.all_products_collection_url }}" class="hover:text-primary transition-colors">SHOP</a>
+        {% if product.collections.size > 0 %}
+          <span class="text-surface-bright">/</span>
+          <a href="{{ product.collections.first.url }}" class="hover:text-primary transition-colors">
+            {{ product.collections.first.title | upcase }}
+          </a>
+        {% endif %}
+        <span class="text-surface-bright">/</span>
+        <span class="text-on-surface">{{ product.title }}</span>
+      </nav>
+      <div class="hidden md:flex items-center gap-space-md text-on-surface-variant font-label-sm">
+        <span>ARCHIVE REF: {{ current_variant.sku | default: product.id | prepend: 'KZ-' | slice: 0, 8 }}</span>
+        <span>•</span>
+        <span class="text-primary">{{ product.type | default: 'KAAZE // 2026' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN PRODUCT SECTION: TWO-COLUMN ASYMMETRIC GRID -->
+  <div class="w-full px-margin md:px-margin-tablet lg:px-margin-desktop py-space-lg lg:py-space-xl">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop">
+      <!-- LEFT COLUMN: PRODUCT GALLERY (7 of 12) -->
+      <div class="lg:col-span-7 flex flex-col gap-space-md">
+        <!-- Main Stage Container -->
+        <div class="relative w-full aspect-[3/4] bg-surface-container-lowest border border-surface-container overflow-hidden group">
+          <!-- Live Status Tag Pin -->
+          <div class="absolute top-4 left-4 z-20 flex items-center gap-space-xs bg-surface/90 backdrop-blur-sm px-3 py-1 border border-surface-container font-mono">
+            <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            <span class="font-label-sm text-label-sm tracking-widest text-primary uppercase">
+              STUDIO SPEC // CAM-A
+            </span>
+          </div>
+          <div class="absolute top-4 right-4 z-20 font-label-sm text-label-sm tracking-widest text-outline uppercase bg-surface/80 px-2 py-1 font-mono">
+            VIEW: <span class="text-primary" id="activeViewLabel">01/STAGE</span>
+          </div>
+
+          <!-- Main Active Image -->
+          <img
+            id="mainProductImage"
+            src="{{ featured_media | image_url: width: 1400 }}"
+            alt="{{ featured_media.alt | default: product.title | escape }}"
+            class="w-full h-full object-cover object-center grayscale contrast-125 transition-opacity duration-200"
+            width="1400"
+            height="1866"
+          >
+
+          <!-- Monospace Technical Coordinates Watermark -->
+          <div class="absolute bottom-4 left-4 z-20 pointer-events-none flex flex-col text-surface-bright font-label-sm text-[9px] tracking-widest font-mono">
+            <span>SPEC: {{ product.type | default: '340 GSM ORGANIC COTTON' }}</span>
+            <span>SHADE: #0B0B0C MONOCHROME</span>
+            <span>STRUCTURE: RELAXED BOXY SILHOUETTE</span>
+          </div>
+        </div>
+
+        <!-- Thumbnail Strip -->
+        {% if product.media.size > 1 %}
+          <div class="grid grid-cols-4 gap-space-sm" id="galleryThumbnails">
+            {% for media in product.media %}
+              <button
+                type="button"
+                class="gallery-thumb group relative aspect-[3/4] bg-surface-container-lowest transition-all p-0 text-left focus:outline-none overflow-hidden cursor-pointer {% if forloop.first %}border-2 border-primary{% else %}border border-surface-container hover:border-outline{% endif %}"
+                data-image-src="{{ media | image_url: width: 1400 }}"
+                data-view-label="0{{ forloop.index }}/MEDIA"
+              >
+                <img
+                  src="{{ media | image_url: width: 300 }}"
+                  alt="{{ media.alt | default: product.title | escape }}"
+                  class="w-full h-full object-cover grayscale contrast-125 {% if forloop.first %}opacity-100{% else %}opacity-80 group-hover:opacity-100{% endif %}"
+                  loading="lazy"
+                  width="300"
+                  height="400"
+                >
+                <span class="absolute bottom-1 left-1 font-label-sm text-[9px] tracking-widest px-1 font-mono bg-surface/90 text-primary">
+                  0{{ forloop.index }}
+                </span>
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <!-- Technical Spec Micro-bar -->
+        <div class="w-full border-t border-b border-surface-container py-space-sm flex flex-wrap items-center justify-between text-outline font-label-sm text-label-sm uppercase tracking-widest font-mono">
+          <span>MILL: SHIZUOKA CIRCULAR KNIT</span>
+          <span>WEIGHT: 340 GSM</span>
+          <span>DYE: ENZYME WASHED REACTIVE</span>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: SPECIFICATIONS & ACTIONS (5 of 12) -->
+      <div class="lg:col-span-5">
+        <div class="lg:sticky lg:top-24 flex flex-col gap-space-lg">
+          <!-- Header / Metadata -->
+          <div class="flex flex-col gap-space-xs font-mono">
+            <div class="flex items-center justify-between">
+              <span class="font-label-md text-label-md tracking-widest text-outline uppercase">
+                [ DROP 01 // ARCHITECTURAL ESSENTIALS ]
+              </span>
+              <span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest">
+                SERIES-2026
+              </span>
+            </div>
+            <h1 class="font-display-lg text-headline-lg lg:text-display-lg uppercase text-primary tracking-tight leading-none mt-1 font-sans font-bold">
+              {{ product.title }}
+            </h1>
+
+            <!-- Price & Stock Status Line -->
+            <div class="flex items-center justify-between pt-space-xs border-b border-surface-container pb-space-md">
+              <div class="flex items-baseline gap-space-sm">
+                <span class="font-headline-md text-headline-md text-primary tracking-wider" id="productPriceDisplay">
+                  {{ price | money }}
+                </span>
+                {% if compare_price > price %}
+                  <span class="font-body-md text-body-md text-outline line-through" id="productComparePriceDisplay">
+                    {{ compare_price | money }}
+                  </span>
+                  {% assign diff = compare_price | minus: price %}
+                  {% assign discount_pct = diff | times: 100 | divided_by: compare_price %}
+                  <span class="bg-surface-container-highest px-2 py-0.5 font-label-sm text-label-sm tracking-widest text-primary">
+                    [-{{ discount_pct }}%]
+                  </span>
+                {% endif %}
+              </div>
+
+              <!-- Stock Indicator -->
+              <div class="flex items-center gap-space-xs">
+                <span class="w-2 h-2 rounded-full {% if product.available %}bg-emerald-400 animate-pulse{% else %}bg-red-500{% endif %}"></span>
+                <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface">
+                  {% if product.available %}IN STOCK &mdash; DISPATCH READY{% else %}ARCHIVED // SOLD OUT{% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Synopsis -->
+          {% if product.description != blank %}
+            <div class="font-body-md text-body-md text-on-surface-variant leading-relaxed font-sans">
+              {{ product.description }}
+            </div>
+          {% endif %}
+
+          <!-- Native Product Form -->
+          {% form 'product', product, id: 'productForm', class: 'flex flex-col gap-space-lg' %}
+            <input type="hidden" name="id" id="selectedVariantId" value="{{ current_variant.id }}">
+
+            <!-- Color Options -->
+            {% for option in product.options_with_values %}
+              {% assign downcased_option = option.name | downcase %}
+              {% if downcased_option == 'color' or downcased_option == 'colour' %}
+                <div class="flex flex-col gap-space-sm font-mono">
+                  <div class="flex items-center justify-between font-label-md text-label-md uppercase tracking-widest">
+                    <span class="text-outline">COLORWAY:</span>
+                    <span class="text-primary font-semibold" id="activeColorName">{{ option.selected_value }}</span>
+                  </div>
+                  <div class="flex items-center gap-space-sm">
+                    {% for value in option.values %}
+                      <button
+                        type="button"
+                        class="variant-option-btn color-option-swatch w-10 h-10 p-0.5 focus:outline-none transition-colors cursor-pointer {% if option.selected_value == value %}border-2 border-primary bg-[#0d0d0e]{% else %}border border-surface-container hover:border-outline bg-[#131313]{% endif %}"
+                        data-option-index="{{ forloop.parentloop.index0 }}"
+                        data-option-value="{{ value | escape }}"
+                        title="{{ value | escape }}"
+                      >
+                        <span class="w-full h-full block border border-surface-container bg-[#1c1c1f]"></span>
+                      </button>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+
+            <!-- Size Options -->
+            {% for option in product.options_with_values %}
+              {% assign downcased_option = option.name | downcase %}
+              {% if downcased_option == 'size' %}
+                <div class="flex flex-col gap-space-sm font-mono">
+                  <div class="flex items-center justify-between font-label-md text-label-md uppercase tracking-widest">
+                    <span class="text-outline">SELECT SIZE:</span>
+                    <button
+                      type="button"
+                      id="openSizeGuideTrigger"
+                      class="text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4 cursor-pointer"
+                    >
+                      [ SIZE GUIDE ]
+                    </button>
+                  </div>
+
+                  <div class="grid grid-cols-5 gap-space-xs">
+                    {% for value in option.values %}
+                      <button
+                        type="button"
+                        class="variant-option-btn size-option-btn h-12 flex items-center justify-center font-label-md text-label-md focus:outline-none uppercase transition-colors cursor-pointer {% if option.selected_value == value %}border border-primary bg-primary text-on-primary font-bold{% else %}border border-surface-container bg-surface text-on-surface hover:border-primary{% endif %}"
+                        data-option-index="{{ forloop.parentloop.index0 }}"
+                        data-option-value="{{ value | escape }}"
+                      >
+                        {{ value }}
+                      </button>
+                    {% endfor %}
+                  </div>
+
+                  <div class="flex items-center gap-space-xs text-outline font-body-sm text-body-sm pt-1 font-sans">
+                    <span class="material-symbols-outlined text-[16px]">straighten</span>
+                    <span>Model is 6'1" wearing size L for signature oversized silhouette.</span>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+
+            <!-- Quantity Stepper & Add to Bag -->
+            <div class="flex flex-col gap-space-sm pt-space-xs font-mono">
+              <div class="flex gap-space-sm">
+                <!-- Quantity Stepper -->
+                <div class="flex items-center border border-surface-container bg-surface-container-lowest h-13 px-2">
+                  <button
+                    type="button"
+                    id="quantityMinusBtn"
+                    class="w-10 h-full flex items-center justify-center text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors cursor-pointer"
+                    aria-label="Decrease quantity"
+                  >
+                    &mdash;
+                  </button>
+                  <input
+                    type="number"
+                    name="quantity"
+                    id="productQuantityInput"
+                    value="1"
+                    min="1"
+                    class="w-10 text-center font-label-md text-label-md text-primary font-medium bg-transparent focus:outline-none"
+                  >
+                  <button
+                    type="button"
+                    id="quantityPlusBtn"
+                    class="w-10 h-full flex items-center justify-center text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors cursor-pointer"
+                    aria-label="Increase quantity"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <!-- Primary Add to Cart Button -->
+                <button
+                  type="submit"
+                  id="addToCartBtn"
+                  name="add"
+                  class="flex-1 font-label-md text-label-md tracking-[0.15em] uppercase font-bold py-4 px-6 border transition-all flex items-center justify-center gap-space-sm {% if product.available %}bg-primary text-on-primary border-primary hover:bg-surface hover:text-primary cursor-pointer{% else %}bg-surface-container text-outline border-surface-container cursor-not-allowed opacity-60{% endif %}"
+                  {% unless product.available %}disabled{% endunless %}
+                >
+                  <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                  <span id="addToCartText">
+                    {% if product.available %}ADD TO CART{% else %}SOLD OUT{% endif %}
+                  </span>
+                </button>
+              </div>
+
+              <!-- Direct Checkout Secondary Button -->
+              <button
+                type="button"
+                id="directCheckoutBtn"
+                class="w-full font-label-md text-label-md tracking-[0.15em] uppercase font-bold py-3.5 transition-all flex items-center justify-center gap-space-xs {% if product.available %}bg-transparent text-primary border border-outline hover:border-primary hover:bg-surface-container-low cursor-pointer{% else %}bg-surface-container text-outline border-surface-container cursor-not-allowed opacity-60{% endif %}"
+                {% unless product.available %}disabled{% endunless %}
+              >
+                <span>{% if product.available %}DIRECT CHECKOUT{% else %}UNAVAILABLE{% endif %}</span>
+                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+              </button>
+            </div>
+          {% endform %}
+
+          <!-- Assurance Badges Grid -->
+          <div class="border border-surface-container bg-surface-container-lowest p-space-md grid grid-cols-1 sm:grid-cols-2 gap-space-md font-mono">
+            <div class="flex items-start gap-space-sm">
+              <span class="material-symbols-outlined text-primary text-[20px] mt-0.5">local_shipping</span>
+              <div>
+                <span class="block font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">
+                  COMPLIMENTARY TRANSIT
+                </span>
+                <span class="font-body-sm text-body-sm text-outline font-sans">
+                  Express across India &amp; worldwide dispatch available.
+                </span>
+              </div>
+            </div>
+            <div class="flex items-start gap-space-sm">
+              <span class="material-symbols-outlined text-primary text-[20px] mt-0.5">autorenew</span>
+              <div>
+                <span class="block font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">
+                  7-DAY RETURNS WINDOW
+                </span>
+                <span class="font-body-sm text-body-sm text-outline font-sans">
+                  Hassle-free reverse pickup &amp; size exchange.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion Specification Modules -->
+          <div class="flex flex-col border-t border-surface-container font-mono">
+            <!-- Accordion 1: Product Details -->
+            <div class="border-b border-surface-container">
+              <button
+                type="button"
+                class="accordion-toggle w-full py-space-md flex items-center justify-between text-left group focus:outline-none cursor-pointer"
+                data-target="accDetails"
+              >
+                <span class="font-label-md text-label-md uppercase tracking-widest text-primary">
+                  [ - ] PRODUCT DETAILS &amp; FABRICATION
+                </span>
+                <span class="material-symbols-outlined text-outline group-hover:text-primary transition-transform duration-200 text-[18px]">
+                  expand_more
+                </span>
+              </button>
+              <div id="accDetails" class="accordion-content pb-space-md text-on-surface-variant font-body-sm space-y-space-sm">
+                <div class="grid grid-cols-2 gap-y-2 border-t border-surface-container-high pt-space-sm font-label-sm">
+                  <span class="text-outline uppercase">[MATERIAL]</span>
+                  <span class="text-on-surface">340 GSM 100% Combed French Terry</span>
+                  <span class="text-outline uppercase">[WEAVE]</span>
+                  <span class="text-on-surface">High-density loopback circular knit</span>
+                  <span class="text-outline uppercase">[COLLAR]</span>
+                  <span class="text-on-surface">Reinforced 1x1 elastane ribbed ribbing</span>
+                  <span class="text-outline uppercase">[FINISH]</span>
+                  <span class="text-on-surface">Pre-shrunk, enzyme silicone washed</span>
+                  <span class="text-outline uppercase">[ORIGIN]</span>
+                  <span class="text-on-surface">Engineered in Tokyo / Milled in Shizuoka</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Accordion 2: Size & Fit -->
+            <div class="border-b border-surface-container">
+              <button
+                type="button"
+                class="accordion-toggle w-full py-space-md flex items-center justify-between text-left group focus:outline-none cursor-pointer"
+                data-target="accFit"
+              >
+                <span class="font-label-md text-label-md uppercase tracking-widest text-primary">
+                  [ + ] SIZE &amp; STRUCTURAL FIT
+                </span>
+                <span class="material-symbols-outlined text-outline group-hover:text-primary transition-transform duration-200 text-[18px]">
+                  expand_more
+                </span>
+              </button>
+              <div id="accFit" class="accordion-content hidden pb-space-md text-on-surface-variant font-body-sm space-y-space-xs font-sans">
+                <p>
+                  Designed with an exaggerated, boxy architectural drape. Features an aggressive drop-shoulder stance that stays elevated away from the torso.
+                </p>
+                <ul class="list-disc list-inside text-outline pt-1 space-y-1">
+                  <li>Choose true standard size for signature runway oversized silhouette.</li>
+                  <li>Size down one full increment for a standard, relaxed fit.</li>
+                  <li>Blind hem and clean collar circumference prevents warping after wash.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Accordion 3: Dispatch Terms -->
+            <div class="border-b border-surface-container">
+              <button
+                type="button"
+                class="accordion-toggle w-full py-space-md flex items-center justify-between text-left group focus:outline-none cursor-pointer"
+                data-target="accDispatch"
+              >
+                <span class="font-label-md text-label-md uppercase tracking-widest text-primary">
+                  [ + ] DISPATCH &amp; CARGO TERMS
+                </span>
+                <span class="material-symbols-outlined text-outline group-hover:text-primary transition-transform duration-200 text-[18px]">
+                  expand_more
+                </span>
+              </button>
+              <div id="accDispatch" class="accordion-content hidden pb-space-md text-on-surface-variant font-body-sm space-y-space-xs font-sans">
+                <p>
+                  Dispatched securely in matte 100% recyclable protective air-cushioned casing within 24–48 hours from our central fulfillment terminal.
+                </p>
+                <p class="text-outline">
+                  Standard domestic transit time: 2–4 business days via DHL Express / Bluedart Air. Global air couriers dispatched DDP.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Size Guide Modal Snippet -->
+{% render 'size-guide-modal' %}
+
+<!-- Product Variants JSON for JavaScript Client -->
+<script type="application/json" id="ProductJson-{{ section.id }}">
+  {{ product.variants | json }}
+</script>
+
+{% schema %}
+{
+  "name": "Main Product Stage",
+  "settings": []
+}
+{% endschema %}

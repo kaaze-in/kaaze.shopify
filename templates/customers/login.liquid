@@ -1,0 +1,156 @@
+{% comment %}
+  KAAZE EDTN Customer Login & Password Recovery Template
+{% endcomment %}
+
+<div class="flex flex-col items-center justify-center flex-1 py-space-xl px-margin font-mono">
+  <!-- Login Container -->
+  <div id="CustomerLoginForm" class="max-w-md w-full bg-surface-container-low border border-surface-container p-space-lg md:p-space-xl space-y-space-md">
+    <div class="border-b border-surface-container pb-space-sm flex items-center justify-between">
+      <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+        [ CLIENT TERMINAL // AUTHENTICATION ]
+      </span>
+      <span class="text-xs text-primary font-bold">KAAZE</span>
+    </div>
+
+    <div>
+      <h1 class="font-display-lg text-headline-lg uppercase text-primary font-sans font-bold leading-tight">
+        SIGN IN.
+      </h1>
+      <p class="font-body-sm text-on-surface-variant font-sans mt-1">
+        Access your order history, delivery addresses, and saved calibrations.
+      </p>
+    </div>
+
+    {% form 'customer_login', class: 'flex flex-col gap-space-sm' %}
+      {% if form.errors %}
+        <div class="p-space-xs bg-red-500/10 border border-red-500 text-red-500 text-xs">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      <div class="flex flex-col gap-1">
+        <label for="CustomerEmail" class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+          EMAIL COORDINATES:
+        </label>
+        <input
+          type="email"
+          name="customer[email]"
+          id="CustomerEmail"
+          autocomplete="email"
+          autocorrect="off"
+          autocapitalize="off"
+          required
+          class="w-full bg-surface-container-lowest border border-surface-container p-3 font-mono text-xs text-primary focus:outline-none focus:border-primary uppercase"
+          placeholder="USER@NETWORK.COM"
+        >
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <div class="flex items-center justify-between">
+          <label for="CustomerPassword" class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+            SECURITY KEY:
+          </label>
+          <a
+            href="#recover"
+            id="RecoverPasswordTrigger"
+            class="text-[11px] text-outline hover:text-primary uppercase tracking-wider underline cursor-pointer"
+            onclick="document.getElementById('RecoverPasswordForm').classList.remove('hidden'); document.getElementById('CustomerLoginForm').classList.add('hidden'); return false;"
+          >
+            FORGOT?
+          </a>
+        </div>
+        <input
+          type="password"
+          name="customer[password]"
+          id="CustomerPassword"
+          autocomplete="current-password"
+          required
+          class="w-full bg-surface-container-lowest border border-surface-container p-3 font-mono text-xs text-primary focus:outline-none focus:border-primary"
+          placeholder="••••••••••••"
+        >
+      </div>
+
+      <div class="pt-space-xs">
+        <button
+          type="submit"
+          class="w-full py-3.5 bg-primary text-on-primary font-label-md text-label-md uppercase tracking-[0.2em] font-bold border border-primary hover:bg-surface-container-high hover:text-primary transition-all cursor-pointer"
+        >
+          [ AUTHENTICATE ]
+        </button>
+      </div>
+    {% endform %}
+
+    <div class="border-t border-surface-container pt-space-sm flex items-center justify-between text-xs text-outline">
+      <span>NEW IDENTIFIER?</span>
+      <a href="{{ routes.account_register_url }}" class="text-primary font-bold hover:underline uppercase">
+        INITIALIZE ACCOUNT &rarr;
+      </a>
+    </div>
+  </div>
+
+  <!-- Recover Password Container (Hidden by default) -->
+  <div id="RecoverPasswordForm" class="hidden max-w-md w-full bg-surface-container-low border border-surface-container p-space-lg md:p-space-xl space-y-space-md">
+    <div class="border-b border-surface-container pb-space-sm flex items-center justify-between">
+      <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+        [ KEY RECOVERY // PROTOCOL ]
+      </span>
+      <button
+        type="button"
+        class="text-xs text-outline hover:text-primary uppercase cursor-pointer"
+        onclick="document.getElementById('RecoverPasswordForm').classList.add('hidden'); document.getElementById('CustomerLoginForm').classList.remove('hidden');"
+      >
+        [CLOSE]
+      </button>
+    </div>
+
+    <div>
+      <h2 class="font-display-lg text-headline-lg uppercase text-primary font-sans font-bold leading-tight">
+        RESET KEY.
+      </h2>
+      <p class="font-body-sm text-on-surface-variant font-sans mt-1">
+        We will dispatch an authentication reset link to your email coordinates.
+      </p>
+    </div>
+
+    {% form 'recover_customer_password', class: 'flex flex-col gap-space-sm' %}
+      {% if form.errors %}
+        <div class="p-space-xs bg-red-500/10 border border-red-500 text-red-500 text-xs">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      <div class="flex flex-col gap-1">
+        <label for="RecoverEmail" class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
+          EMAIL COORDINATES:
+        </label>
+        <input
+          type="email"
+          name="email"
+          id="RecoverEmail"
+          autocomplete="email"
+          autocorrect="off"
+          autocapitalize="off"
+          required
+          class="w-full bg-surface-container-lowest border border-surface-container p-3 font-mono text-xs text-primary focus:outline-none focus:border-primary uppercase"
+          placeholder="USER@NETWORK.COM"
+        >
+      </div>
+
+      <div class="pt-space-xs flex flex-col gap-space-xs">
+        <button
+          type="submit"
+          class="w-full py-3.5 bg-primary text-on-primary font-label-md text-label-md uppercase tracking-[0.2em] font-bold border border-primary hover:bg-surface-container-high hover:text-primary transition-all cursor-pointer"
+        >
+          [ TRANSMIT RESET LINK ]
+        </button>
+        <button
+          type="button"
+          class="w-full py-2.5 text-center text-xs text-outline hover:text-primary uppercase transition-colors"
+          onclick="document.getElementById('RecoverPasswordForm').classList.add('hidden'); document.getElementById('CustomerLoginForm').classList.remove('hidden');"
+        >
+          CANCEL &larr; RETURN TO SIGN IN
+        </button>
+      </div>
+    {% endform %}
+  </div>
+</div>

@@ -1,0 +1,124 @@
+{% comment %}
+  KAAZE EDTN Shipping & Logistics Policy Section
+{% endcomment %}
+
+<div class="flex flex-col w-full text-on-surface">
+  <!-- Top Meta Bar -->
+  <div class="w-full bg-surface-container-lowest px-margin md:px-margin-desktop py-space-sm border-b border-surface-container font-mono">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+      <div class="flex items-center gap-space-md flex-wrap">
+        <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">
+          [ LOGISTICAL PROTOCOLS // POLICY DIRECTIVE ]
+        </span>
+        <span class="hidden sm:inline text-outline-variant">|</span>
+        <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">
+          FULFILMENT &amp; ORDERS
+        </span>
+      </div>
+      <span class="font-label-sm text-label-sm text-outline uppercase">
+        {{ shop.name }}
+      </span>
+    </div>
+  </div>
+
+  <div class="w-full px-margin md:px-margin-desktop py-space-lg md:py-space-xl">
+    <div class="max-w-4xl mx-auto flex flex-col space-y-space-xl">
+      <!-- Header -->
+      <div class="flex flex-col space-y-space-xs border-b border-surface-container pb-space-lg font-mono">
+        <span class="font-label-sm text-label-sm uppercase tracking-widest text-outline">
+          [ FULFILMENT PROTOCOL ]
+        </span>
+        <h1 class="font-display-xl text-display-xl-mobile md:text-display-xl uppercase tracking-tight text-primary leading-none m-0 font-sans font-bold">
+          SHIPPING &amp; LOGISTICS
+        </h1>
+        <p class="font-headline-md text-headline-md text-primary uppercase tracking-wide mt-3 font-sans font-semibold">
+          THIRD-PARTY FULFILMENT. CLEAR POLICIES.
+        </p>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed font-sans max-w-3xl mt-2">
+          KAAZE sources products from external brands and suppliers. Order processing, packaging, shipping, and delivery may be managed by third-party sellers or logistics partners.
+        </p>
+      </div>
+
+      <!-- Numbered Sections Grid -->
+      <div class="space-y-space-md font-mono">
+        <!-- 01 // SHIPPING & DELIVERY -->
+        <section class="bg-surface-container-low border border-surface-container p-space-md md:p-space-lg flex flex-col space-y-space-xs">
+          <div class="border-b border-surface-container pb-2 mb-2">
+            <h2 class="text-primary font-bold text-headline-md font-sans uppercase">
+              01 // SHIPPING &amp; DELIVERY
+            </h2>
+          </div>
+          <p class="text-on-surface-variant font-body-md font-sans leading-relaxed">
+            Delivery timelines and shipping charges vary by product and supplier. Estimated delivery details will be shared where available. KAAZE is not liable for carrier or supplier delays.
+          </p>
+        </section>
+
+        <!-- 02 // ALL SALES ARE FINAL -->
+        <section class="bg-surface-container-low border-2 border-primary p-space-md md:p-space-lg flex flex-col space-y-space-xs">
+          <div class="border-b border-surface-container pb-2 mb-2 flex items-center justify-between">
+            <h2 class="text-primary font-bold text-headline-md font-sans uppercase">
+              02 // ALL SALES ARE FINAL (NO RETURNS OR EXCHANGES)
+            </h2>
+            <span class="text-xs text-primary font-bold">[ STRICT DIRECTIVE ]</span>
+          </div>
+          <p class="text-on-surface-variant font-body-md font-sans leading-relaxed">
+            All purchases made through KAAZE are non-returnable and non-exchangeable once placed. We do not accept returns or offer refunds for changes of mind, incorrect sizes, or buyer preference.
+          </p>
+        </section>
+
+        <!-- 03 // PRODUCT ACCURACY -->
+        <section class="bg-surface-container-low border border-surface-container p-space-md md:p-space-lg flex flex-col space-y-space-xs">
+          <div class="border-b border-surface-container pb-2 mb-2">
+            <h2 class="text-primary font-bold text-headline-md font-sans uppercase">
+              03 // PRODUCT ACCURACY &amp; RESPONSIBILITY
+            </h2>
+          </div>
+          <p class="text-on-surface-variant font-body-md font-sans leading-relaxed">
+            Please review the product title, images, specifications, size charts, and materials carefully before purchasing. Customers are responsible for verifying all selections before completing checkout.
+          </p>
+        </section>
+
+        <!-- 04 // FULFILMENT & TRACKING -->
+        <section class="bg-surface-container-low border border-surface-container p-space-md md:p-space-lg flex flex-col space-y-space-xs">
+          <div class="border-b border-surface-container pb-2 mb-2">
+            <h2 class="text-primary font-bold text-headline-md font-sans uppercase">
+              04 // FULFILMENT &amp; TRACKING
+            </h2>
+          </div>
+          <p class="text-on-surface-variant font-body-md font-sans leading-relaxed">
+            Orders are forwarded to third-party suppliers or logistics networks for dispatch. Tracking details will be provided once assigned by the fulfilling partner.
+          </p>
+        </section>
+
+        <!-- 05 // CUSTOMER SUPPORT -->
+        <section class="bg-surface-container-low border border-surface-container p-space-md md:p-space-lg flex flex-col space-y-space-xs">
+          <div class="border-b border-surface-container pb-2 mb-2">
+            <h2 class="text-primary font-bold text-headline-md font-sans uppercase">
+              05 // CUSTOMER SUPPORT
+            </h2>
+          </div>
+          <p class="text-on-surface-variant font-body-md font-sans leading-relaxed">
+            For order-related questions, contact central atelier support through the registered communication channels. We will assist with supplier enquiries where possible.
+          </p>
+        </section>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm border-t border-surface-container font-mono font-label-sm text-label-sm">
+        <a href="{{ routes.all_products_collection_url }}" class="text-primary hover:underline underline-offset-4 uppercase font-semibold">
+          &larr; EXPLORE CATALOGUE
+        </a>
+        <a href="/pages/terms-conditions" class="text-primary hover:underline underline-offset-4 uppercase font-semibold">
+          TERMS &amp; CONDITIONS &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shipping & Logistics",
+  "settings": []
+}
+{% endschema %}

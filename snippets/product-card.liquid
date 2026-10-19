@@ -1,0 +1,183 @@
+{% comment %}
+  KAAZE Brutalist Product Card Snippet
+  Usage: {% render 'product-card', product: product, card_variant: 'lineup' %}
+  Supports both 'lineup' (homepage) and 'catalog' (collection grid) styles.
+{% endcomment %}
+
+{% assign card_style = card_variant | default: 'catalog' %}
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign main_image = product.featured_media | default: product.featured_image %}
+{% assign compare_price = current_variant.compare_at_price | default: product.compare_at_price %}
+{% assign price = current_variant.price | default: product.price %}
+
+{% if card_style == 'lineup' %}
+  <article class="product-card-lineup group relative flex flex-col bg-surface-container-lowest border border-surface-container hover:border-primary transition-colors duration-150">
+    <a href="{{ product.url }}" class="block relative w-full aspect-[3/4] overflow-hidden bg-surface-container">
+      {% if main_image != blank %}
+        <img
+          src="{{ main_image | image_url: width: 800 }}"
+          alt="{{ main_image.alt | default: product.title | escape }}"
+          class="w-full h-full object-cover object-center grayscale contrast-125 transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
+          width="800"
+          height="1066"
+        >
+      {% else %}
+        <div class="w-full h-full flex items-center justify-center bg-surface-container font-mono text-outline text-xs">
+          NO IMAGE
+        </div>
+      {% endif %}
+
+      <div class="absolute top-space-sm left-space-sm">
+        <span class="px-space-xs py-0.5 bg-surface-container-lowest/90 font-label-sm text-label-sm uppercase tracking-wider text-on-surface border border-surface-container font-mono">
+          {{ product.type | default: 'ARCHIVE SPEC' }}
+        </span>
+      </div>
+
+      <!-- Quick Action Drawer -->
+      <div class="absolute inset-x-0 bottom-0 p-space-sm bg-gradient-to-t from-surface-container-lowest to-transparent flex gap-space-xs opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-150">
+        {% if product.available %}
+          <button
+            type="button"
+            class="quick-add-btn flex-1 py-space-xs bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface-container-high hover:text-primary transition-colors font-semibold cursor-pointer"
+            data-variant-id="{{ current_variant.id }}"
+          >
+            ADD TO BAG
+          </button>
+        {% else %}
+          <button
+            type="button"
+            disabled
+            class="flex-1 py-space-xs bg-surface-container text-outline font-label-sm text-label-sm uppercase tracking-widest cursor-not-allowed font-semibold"
+          >
+            SOLD OUT
+          </button>
+        {% endif %}
+        <div class="px-space-sm py-space-xs bg-surface-container-high text-primary border border-surface-container hover:border-primary transition-colors flex items-center justify-center">
+          <span class="material-symbols-outlined text-[16px] leading-none">visibility</span>
+        </div>
+      </div>
+    </a>
+
+    <div class="p-space-md flex flex-col justify-between flex-grow border-t border-surface-container">
+      <div>
+        <div class="font-label-sm text-label-sm text-outline tracking-widest uppercase mb-space-xs font-mono">
+          {{ current_variant.sku | default: product.id | prepend: 'KZ-' | slice: 0, 8 }}
+        </div>
+        <a href="{{ product.url }}">
+          <h3 class="font-body-md text-body-md font-medium text-primary uppercase tracking-normal line-clamp-1 hover:text-primary/80 transition-colors">
+            {{ product.title }}
+          </h3>
+        </a>
+      </div>
+      <div class="mt-space-md pt-space-xs border-t border-surface-container/60 flex items-center justify-between font-label-md text-label-md font-mono">
+        <span class="text-on-surface font-semibold">{{ price | money }}</span>
+        {% if compare_price > price %}
+          <span class="text-outline line-through text-xs">{{ compare_price | money }}</span>
+        {% endif %}
+        <span class="text-outline uppercase tracking-wider text-[11px]">
+          {{ product.tags | first | default: 'CORE DROP' }}
+        </span>
+      </div>
+    </div>
+  </article>
+
+{% else %}
+  {% comment %} Catalog variant (Collections Grid) {% endcomment %}
+  {% assign discount_pct = 0 %}
+  {% if compare_price > price %}
+    {% assign diff = compare_price | minus: price %}
+    {% assign discount_pct = diff | times: 100 | divided_by: compare_price %}
+  {% endif %}
+
+  <article
+    class="product-item group flex flex-col justify-between bg-surface border border-surface-container hover:border-primary/40 transition-all duration-150 relative h-full p-1 sm:p-2 md:p-3 overflow-hidden"
+    data-product-id="{{ product.id }}"
+    data-product-handle="{{ product.handle }}"
+  >
+    <div class="flex flex-col flex-1">
+      <!-- Product Image -->
+      <a
+        href="{{ product.url }}"
+        class="block relative w-full aspect-square bg-[#f8f8fa] overflow-hidden mb-1 sm:mb-2 border border-surface-container/60"
+      >
+        {% if main_image != blank %}
+          <img
+            src="{{ main_image | image_url: width: 600 }}"
+            alt="{{ main_image.alt | default: product.title | escape }}"
+            class="w-full h-full object-contain p-0.5 sm:p-1.5 transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+            width="600"
+            height="600"
+          >
+        {% else %}
+          <div class="w-full h-full flex items-center justify-center bg-surface-container text-outline text-xs font-mono">
+            NO IMAGE
+          </div>
+        {% endif %}
+
+        {% if product.options_by_name['Color'].values.size > 1 %}
+          <div class="absolute bottom-1 right-1 bg-white/95 px-1 py-0.5 border border-surface-container text-[8px] sm:text-[9px] md:text-[10px] text-on-surface-variant font-mono uppercase tracking-tight shadow-sm">
+            {{ product.options_by_name['Color'].values.size }} colours
+          </div>
+        {% endif %}
+      </a>
+
+      <!-- Product Details -->
+      <div class="flex flex-col flex-1 min-w-0">
+        <a href="{{ product.url }}" class="group-hover:text-primary transition-colors">
+          <h3 class="font-title-lg text-[10px] sm:text-xs md:text-sm font-bold text-primary leading-tight line-clamp-1 uppercase tracking-tight">
+            {{ product.title }}
+          </h3>
+        </a>
+
+        {% if product.metafields.custom.subtitle != blank %}
+          <p class="font-body-sm text-[8px] sm:text-[10px] md:text-xs text-on-surface-variant line-clamp-1 mt-0.5 leading-tight font-mono">
+            {{ product.metafields.custom.subtitle }}
+          </p>
+        {% elsif product.description != blank %}
+          <p class="font-body-sm text-[8px] sm:text-[10px] md:text-xs text-on-surface-variant line-clamp-1 mt-0.5 leading-tight">
+            {{ product.description | strip_html | truncate: 55 }}
+          </p>
+        {% endif %}
+
+        <!-- Price Block -->
+        <div class="mt-1 sm:mt-1.5 flex flex-wrap items-baseline gap-x-1 gap-y-0.5 font-mono">
+          <span class="font-title-lg text-[11px] sm:text-xs md:text-sm font-bold text-primary">
+            {{ price | money }}
+          </span>
+          {% if compare_price > price %}
+            <span class="font-body-sm text-[8px] sm:text-[9px] md:text-[11px] text-outline line-through">
+              {{ compare_price | money }}
+            </span>
+            <span class="font-body-sm text-[8px] sm:text-[9px] md:text-[11px] text-[#007600] font-semibold">
+              (-{{ discount_pct }}%)
+            </span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Add to Cart Button -->
+    <div class="mt-1.5 sm:mt-2.5 pt-1 border-t border-surface-container/50">
+      {% if product.available %}
+        <button
+          type="button"
+          class="quick-add-btn w-full py-1 sm:py-1.5 px-0.5 sm:px-1 bg-[#ffd814] hover:bg-[#f7ca00] text-[#0f1111] font-label-sm text-[9px] sm:text-[11px] md:text-xs font-semibold text-center transition-colors uppercase tracking-wider active:scale-[0.98] border border-[#fcd200] cursor-pointer"
+          data-variant-id="{{ current_variant.id }}"
+          aria-label="Add {{ product.title | escape }} to bag"
+        >
+          ADD TO CART
+        </button>
+      {% else %}
+        <button
+          type="button"
+          disabled
+          class="w-full py-1 sm:py-1.5 px-0.5 sm:px-1 bg-surface-container text-outline font-label-sm text-[9px] sm:text-[11px] md:text-xs font-semibold text-center uppercase tracking-wider cursor-not-allowed border border-surface-container opacity-60"
+        >
+          SOLD OUT
+        </button>
+      {% endif %}
+    </div>
+  </article>
+{% endif %}

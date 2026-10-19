@@ -1,0 +1,82 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "KAAZE EDTN",
+    "theme_version": "1.0.0",
+    "theme_author": "KAAZE ATELIER",
+    "theme_documentation_url": "https://kaaze.in",
+    "theme_support_url": "https://kaaze.in"
+  },
+  {
+    "name": "Brutalist Color Tokens",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Accent",
+        "default": "#0a0a0a"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Main Surface Background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_surface_dark",
+        "label": "Dark Surface Background",
+        "default": "#131313"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Technical Border Color",
+        "default": "#e4e4e7"
+      }
+    ]
+  },
+  {
+    "name": "Cart & Fulfillment",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Complimentary Transit Threshold (₹)",
+        "default": 2500
+      },
+      {
+        "type": "text",
+        "id": "fulfillment_node",
+        "label": "Origin Node Label",
+        "default": "MANGALURU ORIGIN NODE // 12.9141° N, 74.8560° E"
+      },
+      {
+        "type": "text",
+        "id": "operational_status",
+        "label": "Operational Status",
+        "default": "DISPATCH ACTIVE // INDIA"
+      }
+    ]
+  },
+  {
+    "name": "Social Transmissions",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "url",
+        "id": "social_twitter",
+        "label": "Twitter / X URL"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube",
+        "label": "YouTube URL"
+      }
+    ]
+  }
+]
