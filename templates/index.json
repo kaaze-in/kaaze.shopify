@@ -1,26 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "main-hero",
-      "settings": {}
+      "settings": {
+        "tagline": "NOT MADE TO FIT IN.",
+        "brand_heading": "KAAZE.",
+        "subheading": "Your Style. Your Energy.",
+        "body_text": "Set your own trends. Own your vibe.",
+        "button_text": "SHOP NOW",
+        "button_link": "",
+        "status_badge": "BE DIFFERENT. BE KAAZE."
+      }
     },
     "lineup": {
       "type": "lineup",
-      "settings": {}
+      "settings": {
+        "eyebrow": "CATALOGUE // DROP 01",
+        "series": "CORE RELEASES",
+        "heading": "THE LINEUP.",
+        "collection": "",
+        "products_to_show": 4,
+        "view_all_text": "EXPLORE FULL ARCHIVE",
+        "view_all_link": ""
+      }
     },
     "categories": {
       "type": "category-grid",
-      "settings": {}
-    },
-    "manifesto": {
-      "type": "manifesto",
-      "settings": {}
+      "settings": {
+        "eyebrow": "[ SPEC // SECTOR CLASSIFICATION ]",
+        "tag": "ARCHIVE CATEGORIES"
+      }
     }
   },
   "order": [
     "hero",
     "lineup",
-    "categories",
-    "manifesto"
+    "categories"
   ]
 }
