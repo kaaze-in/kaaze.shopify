@@ -15,17 +15,12 @@
     "manifesto": {
       "type": "manifesto",
       "settings": {}
-    },
-    "newsletter": {
-      "type": "newsletter",
-      "settings": {}
     }
   },
   "order": [
     "hero",
     "lineup",
     "categories",
-    "manifesto",
-    "newsletter"
+    "manifesto"
   ]
 }
