@@ -24,7 +24,8 @@
     "lineup_8Tteq9": {
       "type": "lineup",
       "custom_css": [
-        "/* Two products per row */.lineup-grid {grid-template-columns: repeat(2, minmax(0, 1fr)) !important;}"
+        ".product-grid {grid-template-columns: repeat(2, minmax(0, 1fr)) !important;}",
+        ".product-grid > * {width: 100% !important; max-width: none !important;}"
       ],
       "name": "The Lineup Grid",
       "settings": {
