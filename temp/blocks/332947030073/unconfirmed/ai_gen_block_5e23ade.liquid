@@ -1,0 +1,44 @@
+{% doc %}
+  @prompt
+    Add a scoped CSS-only snippet that targets only the section with ID "template--24242804490297__lineup_8Tteq9" on the homepage. On mobile screens (max-width: 749px), override the grid container inside "The Lineup Grid" section so it displays exactly 2 product cards per row, resulting in a 2×2 grid for 4 products. Inspect the section's existing grid container classes and apply the correct CSS selectors. Do not change the desktop layout. Do not modify any other section. Preserve all card dimensions, images, typography, prices, buttons, and spacing.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .shopify-section#template--24242804490297__lineup_8Tteq9 .product-grid {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 749px) {
+    .shopify-section#template--24242804490297__lineup_8Tteq9 .product-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+{% endstyle %}
+
+<div class="ai-lineup-mobile-grid-{{ ai_gen_id }}" style="display: none; width: {{ block.settings.desktop_width_percent }}%;" {{ block.shopify_attributes }}></div>
+
+{% schema %}
+{
+  "name": "Lineup mobile grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lineup mobile grid"
+    }
+  ],
+  "tag": null,
+  "class": "lineup-mobile-grid-style"
+}
+{% endschema %}
