@@ -32,18 +32,10 @@
         "view_all_text": "EXPLORE FULL ARCHIVE",
         "view_all_link": ""
       }
-    },
-    "categories": {
-      "type": "category-grid",
-      "settings": {
-        "eyebrow": "[ SPEC // SECTOR CLASSIFICATION ]",
-        "tag": "ARCHIVE CATEGORIES"
-      }
     }
   },
   "order": [
     "hero",
-    "lineup",
-    "categories"
+    "lineup"
   ]
 }
