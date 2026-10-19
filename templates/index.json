@@ -37,10 +37,27 @@
         "view_all_text": "EXPLORE FULL ARCHIVE",
         "view_all_link": ""
       }
+    },
+    "17924165922a977bde": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_5e23ade_339Ldz": {
+          "type": "ai_gen_block_5e23ade",
+          "settings": {
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_5e23ade_339Ldz"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "hero",
-    "lineup_8Tteq9"
+    "lineup_8Tteq9",
+    "17924165922a977bde"
   ]
 }
