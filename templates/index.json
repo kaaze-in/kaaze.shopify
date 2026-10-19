@@ -33,23 +33,10 @@
         "view_all_text": "EXPLORE FULL ARCHIVE",
         "view_all_link": ""
       }
-    },
-    "lineup": {
-      "type": "lineup",
-      "settings": {
-        "eyebrow": "CATALOGUE // DROP 01",
-        "series": "CORE RELEASES",
-        "heading": "THE LINEUP.",
-        "collection": "",
-        "products_to_show": 4,
-        "view_all_text": "EXPLORE FULL ARCHIVE",
-        "view_all_link": ""
-      }
     }
   },
   "order": [
     "hero",
-    "lineup_8Tteq9",
-    "lineup"
+    "lineup_8Tteq9"
   ]
 }
